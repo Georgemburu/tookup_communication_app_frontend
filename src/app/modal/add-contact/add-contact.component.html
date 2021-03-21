@@ -1,0 +1,87 @@
+<div class="modal fade add-popup add-contact-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">
+             Add Contact</h2>
+          <span (click)="handleCancelButtonClick()">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </span>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="addContactFormErrorMessage" class="alert alert-danger" role="alert">
+             {{ addContactFormErrorMessage }} 
+          </div>
+          <div *ngIf="addContactFormSuccessMessage" class="alert alert-success" role="alert">
+            {{ addContactFormSuccessMessage }} 
+         </div>
+          
+          <form 
+            class="default-form" 
+            >
+            <div class="form-group">
+              <h5>Email  or  Username</h5>
+              <input 
+                class="form-control" 
+                id="exampleInputEmail1" 
+                type="text" 
+                placeholder="Josephin water" 
+                [(ngModel)]="addContactEmailTyped" name="addContactEmailTyped"
+                [readonly] = "receivedContactToAddObj && receivedContactToAddObj.email "
+                />
+            </div>
+            <div class="form-group mb-0">
+              <h5>Contact number</h5>
+              <input 
+                class="form-control" 
+                id="examplemsg" 
+                type="text" 
+                placeholder="12345678912" 
+                [(ngModel)]="addContactPhoneNumberTyped" name="addContactPhoneNumberTyped"
+                [readonly] = "receivedContactToAddObj && receivedContactToAddObj.phoneNumber "
+                />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <span (click)="handleCancelButtonClick()">
+            <button class="btn btn-danger button-effect btn-sm" type="button" data-dismiss="modal">Cancel</button>
+          </span>
+<!-- 
+          <button 
+            class="btn btn-primary button-effect btn-sm" 
+            type="button" (click)="handleAddContactSubmition()"
+            *ngIf="addContactButtonHasBeenClicked==false"
+            >Add contact</button>
+            
+          <button 
+            class="btn btn-primary button-effect btn-sm"
+            *ngIf="addContactButtonHasBeenClicked==true">
+            <app-loading-spinner></app-loading-spinner>
+          </button> -->
+
+          <!-- start button -->
+          <a 
+            class="btn btn-primary button-effect btn-sm" 
+            *ngIf="addContactButtonHasBeenClicked;else showAddContactButton">
+                <app-loading-spinner></app-loading-spinner>
+          </a>
+          <ng-template #showAddContactButton>
+            <button 
+            class="btn btn-primary button-effect btn-sm" 
+            type="button" (click)="handleAddContactSubmition()"
+            *ngIf="addContactButtonHasBeenClicked==false"
+            >Add contact</button>
+          </ng-template> 
+            
+
+
+          <!-- end button -->
+          
+
+        </div>
+      </div>
+    </div>
+</div>

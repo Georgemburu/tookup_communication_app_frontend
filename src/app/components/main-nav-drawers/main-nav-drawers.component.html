@@ -1,0 +1,1677 @@
+<aside class="chitchat-left-sidebar left-disp">
+    <div class="recent-default dynemic-sidebar active">
+
+      <div class="recent" *ngIf="userInfoObject && userInfoObject.contacts && userInfoObject.contacts.length>0">
+        <!-- drawer content tile area -->
+        <div class="theme-title">
+
+          <div class="media">
+            <div> 
+              <h2>Recent</h2>
+              <h4>Chat from your friends 😘</h4>
+            </div>
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light button-effect pull-right mobile-back" >
+                <i class="ti-angle-right"></i>
+              </a>
+              <!-- <a class="icon-btn btn-outline-light button-effect pull-right mainnav on" >
+                <i data-feather="grid" class="ti-layout-grid2"></i>
+              </a> -->
+              <a class="icon-btn button-effect pull-right mainnav btn-outline-primary" >
+                <i data-feather="grid" class="ti-layout-grid2"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+        <!-- end drawer content tile area -->
+
+        <!-- recent chats images slider -->
+        <div 
+        *ngIf="!userInfoObject || !userInfoObject.contacts || !userInfoObject.contacts.length || userInfoObject.contacts.length == 0"
+        class="alert alert-info">
+            No Recent Chats
+        </div>
+        <div 
+          *ngIf="userInfoObject && userInfoObject.contacts && userInfoObject.contacts.length>0"
+          class="recent-slider recent-chat owl-carousel owl-theme">
+          <!-- one item -->
+          <div  
+            class="item"
+            *ngFor="let contact of userInfoObject.contacts"
+            >
+            <div class="recent-box">
+              <div class="dot-btn dot-danger grow"></div>
+              <div class="recent-profile">
+                <img class="bg-img" src="../assets/images/avtar/1.jpg" alt="Avatar"/>
+                <h6 > {{ contact.fullName }}</h6>
+              </div>
+            </div>
+          </div>
+          <!-- end one item -->
+          <!-- <div class="item">
+            <div class="recent-box">
+              <div class="dot-btn dot-success grow"></div>
+              <div class="recent-profile online">
+                <img class="bg-img" src="../assets/images/avtar/big/audiocall.jpg" alt="Avatar"/>
+                <h6> John </h6>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="item">
+            <div class="recent-box">
+              <div class="dot-btn dot-warning grow"></div>
+              <div class="recent-profile">
+                <img class="bg-img" src="../assets/images/avtar/2.jpg" alt="Avatar"/>
+                <h6> Jpny</h6>
+              </div>
+            </div>
+          </div> -->
+          <!-- end of items -->
+        </div>
+        <!-- end recent chats images slider -->
+
+      </div>
+
+      <!-- start of display when + is clicked -->
+      <div class="chat custom-scroll">
+        <ul class="chat-cont-setting">
+          <li> 
+            <a  data-toggle="modal" data-target="#msgchatModal">
+              <span>new chat</span>
+              <div class="icon-btn btn-outline-primary button-effect btn-sm">
+                <i data-feather="message-square"></i>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a  data-toggle="modal" data-target="#msgcallModal">
+              <span>new call</span>
+              <div class="icon-btn btn-outline-success button-effect btn-sm">
+                <i data-feather="phone"></i>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a  id="newContactModalOppenerButton" data-toggle="modal" data-target="#exampleModalCenter">
+              <span>new Contact</span>
+              <div class="icon-btn btn-outline-danger button-effect btn-sm">
+                <i data-feather="users"></i>
+              </div>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Chat Start New Conversation -->
+        <div class="theme-title">
+          <div class="media">
+            <div> 
+              <h2>Chat</h2>
+              <h4>Start New Conversation</h4>
+            </div>
+            <div class="media-body text-right">   <a class="icon-btn btn-outline-light btn-sm search contact-search" > <i data-feather="search"></i></a>
+              <form class="form-inline search-form">
+                <div class="form-group">
+                  <input class="form-control-plaintext" type="search" placeholder="Search.."/>
+                  <div class="icon-close close-search">                 </div>
+                </div>
+              </form><a class="icon-btn btn-primary btn-fix chat-cont-toggle outside" ><i data-feather="plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="theme-tab tab-sm chat-tabs">     
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" data-to="chat-content"><a class="nav-link button-effect active" id="chat-tab" data-toggle="tab" href="#chat" role="tab" aria-controls="chat" aria-selected="true" data-intro="Start chat"><i data-feather="message-square"> </i>Chat</a></li>
+            <li class="nav-item" data-to="call-content"><a class="nav-link button-effect" id="call-tab" data-toggle="tab" href="#call" role="tab" aria-controls="call" aria-selected="false"><i data-feather="phone"> </i>Call</a></li>
+            <li class="nav-item" data-to="contact-content"><a class="nav-link button-effect" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"> <i data-feather="users"> </i>Contact</a></li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="chat" role="tabpanel" aria-labelledby="chat-tab"> 
+              <div class="theme-tab">       
+                <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                  <li class="nav-item">
+                    <a 
+                      class="nav-link button-effect active" 
+                      id="direct-tab" data-toggle="tab" 
+                      href="#direct" role="tab" aria-controls="direct" 
+                      aria-selected="false" data-to="chating"
+                      (click)="handleDirectChatTabClick('DIRECT')" 
+                      >Direct</a>
+                  </li>
+                  <li class="nav-item">
+                    <a 
+                      class="nav-link button-effect" 
+                      id="group-tab" data-toggle="tab" 
+                      href="#group" role="tab" aria-controls="group"
+                      aria-selected="true" data-to="group_chat"
+                      (click)="handleGroupChatTabClick('group_chat')"
+                       >Group</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent1">
+                  <div class="tab-pane fade show active" id="direct" role="tabpanel" aria-labelledby="direct-tab">
+                    <div  *ngIf="!userInfoObject || !userInfoObject.contacts || !userInfoObject.contacts.length || userInfoObject.contacts.length == 0" class="alert alert-info"> Empty Chats </div> 
+                    <ul class="chat-main">
+                      <!-- one item -->
+                      <span *ngIf="orderedChatsArr && orderedChatsArr.length>0">
+                          <li  
+                          *ngFor="let chatObj of orderedChatsArr"
+                            data-to="blank" 
+                            (click)="handleChatsListClick(chatObj.contactInfo)"
+                            [className]="clickedContact._id == chatObj.contactInfo._id ? 'lightAs_active' : ''"
+                            id="key_{{chatObj.contactInfo._id}}"
+                            >
+                            <div class="chat-box">
+                              <!-- <div class="profile offline">
+                                <img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/>
+                              </div> -->
+                              <div [className]="chatObj.contactInfo.profilePictureUrl?'profile offline':'profile bg-success offline'">
+                                <img class="bg-img" *ngIf="chatObj.contactInfo.profilePictureUrl" src={{chatObj.contactInfo.profilePictureUrl}} alt="Avatar"/>
+                                <span *ngIf="!chatObj.contactInfo.profilePictureUrl && chatObj.contactInfo.fullName.split(' ').length>1">{{ chatObj.contactInfo.fullName.split(' ')[0].split('')[0]  }}{{ chatObj.contactInfo.fullName.split(' ')[1].split('')[0]}}</span>
+                                <span *ngIf="!chatObj.contactInfo.profilePictureUrl && chatObj.contactInfo.fullName.split(' ').length==1">{{ chatObj.contactInfo.fullName.split('')[0]}}</span>
+                    
+                              </div>
+                              <div  [className] = "clickedContact._id == chatObj.contactInfo._id ? 'details active' : 'details'">
+                                <h5>{{ chatObj.contactInfo.fullName }}</h5>
+                                <h6>{{ chatObj.messages[chatObj.messages.length-1].messageText }}</h6>
+                              </div>
+                              <div class="date-status"><i class="ti-pin2"></i>
+                                <h6>{{ chatObj.messages[chatObj.messages.length-1].date }}/{{ chatObj.messages[chatObj.messages.length-1].month }}/{{ chatObj.messages[chatObj.messages.length-1].year }}</h6>
+                                <h6 class="font-success status"> {{ chatObj.messages[chatObj.messages.length-1].status }}</h6>
+                              </div>
+                            </div>
+                          </li>
+                      </span>
+                      <span *ngIf="userInfoObject && !orderedChatsArr || userInfoObject && orderedChatsArr.length==0">
+                        <li                           
+                          *ngFor="let contact of userInfoObject.contacts"
+                          (click)="handleChatsListClick(contact)"
+                          [className]="clickedContact && clickedContact._id == contact._id ? 'active' : ''"
+                          [attr.data-to]="clickedContact && clickedContact && clickedContact._id == contact._id ? 'chating': 'blank'"
+                          id="key_{{contact._id}}"
+                          >
+                          <div class="chat-box">
+                            <!-- <div class="profile offline">
+                              <img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/>
+                            </div> -->
+                            <div [className]="contact.profilePictureUrl?'profile offline':'profile bg-success offline'">
+                              <img class="bg-img" *ngIf="contact.profilePictureUrl" src={{contact.profilePictureUrl}} alt="Avatar"/>
+                              <span *ngIf="!contact.profilePictureUrl && contact.fullName.split(' ').length>1">{{ contact.fullName.split(' ')[0].split('')[0]  }}{{ contact.fullName.split(' ')[1].split('')[0]}}</span>
+                              <span *ngIf="!contact.profilePictureUrl && contact.fullName.split(' ').length==1">{{ contact.fullName.split('')[0]}}</span>
+                  
+                            </div>
+                            <div  [className] = "clickedContact && clickedContact._id == contact._id ? 'details active' : 'details'">
+                              <h5>{{ contact.fullName }}</h5>
+                              <!-- <h6>{{ chatObj.messages[chatObj.messages.length-1].messageText }}</h6> -->
+                              <h6>'...'</h6>
+
+                            </div>
+                            <div class="date-status"><i class="ti-pin2"></i>
+                              <!-- <h6>{{ chatObj.messages[chatObj.messages.length-1].date }}/{{ chatObj.messages[chatObj.messages.length-1].month }}/{{ chatObj.messages[chatObj.messages.length-1].year }}</h6> -->
+                              <h6>  </h6>
+
+                              <!-- <h6 class="font-success status"> {{ chatObj.messages[chatObj.messages.length-1].status }}</h6> -->
+                              <h6 class="font-success status"> </h6>
+
+                            </div>
+                          </div>
+                        </li>
+                      </span>
+                      <!-- one item -->
+                      <!-- <li class="active" data-to="chating">
+                        <div class="chat-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6>Typing................</h6>
+                          </div>
+                          <div class="date-status"><i class="ti-pin2"></i>
+                            <h6>30/11/19</h6>
+                            <div class="badge badge-primary sm">8</div>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- <li data-to="blank">
+                        <div class="chat-box">
+                          <div class="profile unreachable"><img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Sufiya Elija</h5>
+                            <h6>I need job, please help me.</h6>
+                          </div>
+                          <div class="date-status"><i class="ti-pin2"></i>
+                            <h6>15/06/19</h6>
+                            <h6 class="font-dark status"> Sending</h6>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- <li data-to="blank">
+                        <div class="chat-box">
+                          <div class="profile busy"><img class="bg-img" src="../assets/images/contact/4.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Mukrani Pabelo</h5>
+                            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+                          </div>
+                          <div class="date-status"><i class="ti-pin2"></i>
+                            <h6>04/06/19</h6>
+                            <h6 class="font-danger status"> Failed</h6>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- <li data-to="blank">
+                        <div class="chat-box">
+                          <div class="profile busy"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jhon Deo</h5>
+                            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+                          </div>
+                          <div class="date-status"><i class="ti-pin2"></i>
+                            <h6>04/06/19</h6>
+                            <h6 class="font-danger status"> Failed</h6>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- <li data-to="blank">
+                        <div class="chat-box">
+                          <div class="profile busy"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Pabelo Mukrani</h5>
+                            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+                          </div>
+                          <div class="date-status"><i class="ti-pin2"></i>
+                            <h6>04/06/19</h6>
+                            <h6 class="font-danger status"> Failed</h6>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- end of items -->
+                    </ul>
+                  </div>
+                  <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab"> 
+                     <!-- display success messages -->
+                     <div 
+                     *ngIf="groupCreationRequestErrorMessage"
+                     class = "alert alert-danger"
+                     role="alert"
+                   > {{ groupCreationRequestErrorMessage }}</div>
+
+                   <div 
+                     *ngIf="groupCreationRequestSuccessMessage" 
+                     class = "alert alert-success"
+                     role="alert"
+                   > {{ groupCreationRequestSuccessMessage }}</div>
+                    <div class="search2">
+                      <div> 
+                        <div class="input-group">
+                          <div
+                            *ngIf="!loadingCreatingGroup" 
+                            class="input-group-append" (click)="handleCreateGroupClick(groupNameInput.value)">
+                            <span class="input-group-text">
+                              <i class="fa fa-plus"></i>
+                            </span>
+                          </div>
+                          <app-ellipsis-spinner *ngIf="loadingCreatingGroup"></app-ellipsis-spinner>
+                          <input class="form-control" type="text" placeholder="Create Group" #groupNameInput id="groupCreatorInputBox"/>
+                        </div>
+                      </div> 
+                    </div>
+                    <div 
+                      class="alert alert-info"
+                      *ngIf="!getCurrentUserGroupsArray || getCurrentUserGroupsArray.length==0">
+                      You have no groups yet
+                    </div>
+                    <ul class="group-main" *ngIf="getCurrentUserGroupsArray">
+                      <!-- one group item -->
+                      <li 
+                        *ngFor="let userGroup of getCurrentUserGroupsArray"
+                        [className]="clickedGroup && clickedGroup._id==userGroup._id ? 'active': ''" 
+                        [attr.data-to]="clickedGroup && clickedGroup._id==userGroup._id ? 'group_chat' : 'group_blank'"
+                        (click)="handleGroupListItemClick(userGroup)"
+                        >
+                        <div class="group-box">
+                          <!-- <div class="profile">
+                            <img class="bg-img" src="../assets/images/avtar/teq.jpg" alt="Avatar"/>
+                          </div> -->
+                          <div class="profile bg-primary">
+                            <img class="bg-img" *ngIf="userGroup.profilePictureUrl" src={{userGroup.profilePictureUrl}} alt="Avatar"/>
+                            <span  *ngIf="!userGroup.profilePictureUrl && userGroup.groupName.split(' ').length>1">{{ userGroup.groupName.split(' ')[0].split('')[0]  }}{{ userGroup.groupName.split(' ')[1].split('')[0]}}</span>
+                            <span *ngIf="!userGroup.profilePictureUrl && userGroup.groupName.split(' ').length==1">{{ userGroup.groupName.split('')[0]}}</span>
+                          </div>
+                          <div class="details">
+                            <h5>{{ userGroup.groupName }}</h5> 
+                            <h6>Lorem Ipsum is simply dummy text the printing and typesetting industry.</h6>
+                          </div>
+                          <div class="date-status">
+                            <!-- participants -->
+                            <!-- *ngIf="contactsObject" -->
+                            <ul class="grop-icon" *ngIf="contactsObject">
+                              <li 
+                                *ngFor="let participantsId of userGroup.participants; let last = last;"
+                              >
+                                <a 
+                                  class="group-tp"  
+                                  attr.data-tippy-content="{{ contactsObject[participantsId].fullName }}"
+                                  *ngIf="contactsObject[participantsId]"
+                                  > 
+                                  <img *ngIf="contactsObject[participantsId].profilePictureUrl" src="{{ contactsObject[participantsId].profilePictureUrl }}" alt="group-icon-img"/>
+
+                                  <div class="profile bg-primary" *ngIf="!contactsObject[participantsId].profilePictureUrl">
+                                    <!-- <img class="bg-img" *ngIf="userGroup.profilePictureUrl" src={{userGroup.profilePictureUrl}} alt="Avatar"/> -->
+                                    <span  *ngIf="contactsObject[participantsId].fullName.split(' ').length>1">{{ contactsObject[participantsId].fullName.split(' ')[0].split('')[0]  }}{{ contactsObject[participantsId].fullName.split(' ')[1].split('')[0]}}</span>
+                                    <span *ngIf="contactsObject[participantsId].fullName.split(' ').length==1">{{ contactsObject[participantsId].fullName.split('')[0]}}</span>
+                                  </div>
+                                </a>
+                              </li>
+                              <!-- <li><a class="group-tp"  data-tippy-content="Jony "> <img src="../assets/images/contact/2.jpg" alt="group-icon-img"/></a></li>
+                              <li><a class="group-tp"  data-tippy-content="Pabelo"> <img src="../assets/images/contact/3.jpg" alt="group-icon-img"/></a></li> -->
+                              <li>+ {{ userGroup.participants.length-1 }}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <!-- end one group item -->
+                      <!-- <li data-to="group_blank">
+                        <div class="group-box">
+                          <div class="profile"><img class="bg-img" src="../assets/images/avtar/family.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Family Ties</h5>
+                            <h6>Lorem Ipsum is simply dummy text the printing and typesetting industry.</h6>
+                          </div>
+                          <div class="date-status">
+                            <ul class="grop-icon">
+                              <li><a class="group-tp"  data-tippy-content="Josephin"> <img src="../assets/images/contact/1.jpg" alt="group-icon-img"/></a></li>
+                              <li><a class="group-tp"  data-tippy-content="Jony "> <img src="../assets/images/contact/2.jpg" alt="group-icon-img"/></a></li>
+                              <li><a class="group-tp"  data-tippy-content="Pabelo"> <img src="../assets/images/contact/3.jpg" alt="group-icon-img"/></a></li>
+                              <li>+ 12</li>
+                            </ul>
+                            <div class="badge badge-primary"></div>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- <li data-to="group_blank">
+                        <div class="group-box">
+                          <div class="profile bg-danger"><span>HT</span></div>
+                          <div class="details">
+                            <h5>Hungry for Trouble</h5>
+                            <h6>Lorem Ipsum is simply dummy text the printing and typesetting industry.</h6>
+                          </div>
+                        </div>
+                      </li> -->
+                      <!-- <li data-to="group_blank">
+                        <div class="group-box">
+                          <div class="profile"><img class="bg-img" src="../assets/images/avtar/girls.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Staunch Ladies</h5>
+                            <h6>Lorem Ipsum is simply dummy text the printing and typesetting industry.</h6>
+                          </div>
+                        </div> 
+                      </li> -->
+                      <!-- <li data-to="group_blank">
+                        <div class="group-box">
+                          <div class="profile bg-success"><span>CE</span></div>
+                          <div class="details">
+                            <h5>Crazy Engineers</h5>
+                            <h6>Lorem Ipsum is simply dummy text the printing and typesetting industry.</h6>
+                          </div>
+                          <div class="date-status"></div>
+                        </div>
+                      </li> -->
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="call" role="tabpanel" aria-labelledby="call-tab"> 
+              <div class="theme-tab tab-icon">
+                <ul class="nav nav-tabs" id="contactTab" role="tablist">
+                  <li class="nav-item"><a class="nav-link active" id="con1-tab" data-toggle="tab" href="#con1" role="tab" aria-controls="con1" aria-selected="true">All</a></li>
+                  <li class="nav-item"><a class="nav-link" id="con3-tab" data-toggle="tab" href="#con3" role="tab" aria-controls="con3" aria-selected="false"> <i data-feather="phone-incoming"></i></a></li>
+                  <li class="nav-item"><a class="nav-link" id="con4-tab" data-toggle="tab" href="#con4" role="tab" aria-controls="con4" aria-selected="false"> <i data-feather="phone-outgoing"></i></a></li>
+                  <li class="nav-item"><a class="nav-link" id="con2-tab" data-toggle="tab" href="#con2" role="tab" aria-controls="con2" aria-selected="false"> <i data-feather="phone-missed"></i></a></li>
+                </ul>
+                <div class="tab-content" id="contactTabContent">
+                  <div class="tab-pane fade show active" id="con1" role="tabpanel" aria-labelledby="con1-tab"> 
+                    <ul class="call-log-main">
+                      <li class="active">
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-left"></i>3:30 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:10 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="tab-pane fade" id="con2" role="tabpanel" aria-labelledby="con2-tab"> 
+                    <ul class="call-log-main">
+                      <li class="active">
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:30 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:10 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i class="missed" data-feather="corner-left-down"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-danger button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="tab-pane fade" id="con3" role="tabpanel" aria-labelledby="con3-tab"> 
+                    <ul class="call-log-main">
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:10 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-down-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="tab-pane fade" id="con4" role="tabpanel" aria-labelledby="con4-tab"> 
+                    <ul class="call-log-main">
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-up-right"></i>3:10 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-up-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-up-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-up-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="phone"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="call-box">
+                          <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                          <div class="details">
+                            <h5>Jony Lynetin</h5>
+                            <h6> <i data-feather="arrow-up-right"></i>3:00 pm</h6>
+                          </div>
+                          <div class="call-status">
+                            <div class="icon-btn btn-outline-success button-effect btn-sm"><i data-feather="video"></i></div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+              <ul class="contact-log-main">
+                <li>
+                  <div class="contact-box">
+                    <div class="profile offline"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+                    <div class="details">
+                      <h5>Jony Lynetin</h5>
+                      <h6>+21 3523 25544 </h6>
+                    </div>
+                    <div class="contact-action">
+                      <div class="icon-btn btn-outline-primary btn-sm button-effect"><i data-feather="phone"></i></div>
+                      <div class="icon-btn btn-outline-success btn-sm button-effect"><i data-feather="video"></i></div>
+                    </div>
+                  </div>
+                </li>
+                <li class="active">
+                  <div class="contact-box">
+                    <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+                    <div class="details">
+                      <h5>Jony Lynetin</h5>
+                      <h6>+54 541447 255 </h6>
+                    </div>
+                    <div class="contact-action">
+                      <div class="icon-btn btn-outline-primary btn-sm button-effect"><i data-feather="phone"></i></div>
+                      <div class="icon-btn btn-outline-success btn-sm button-effect"><i data-feather="video"></i></div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="contact-box">
+                    <div class="profile busy"><img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+                    <div class="details">
+                      <h5>Jony Lynetin</h5>
+                      <h6>+58 2564 02554</h6>
+                    </div>
+                    <div class="contact-action">
+                      <div class="icon-btn btn-outline-primary btn-sm button-effect"><i data-feather="phone"></i></div>
+                      <div class="icon-btn btn-outline-success btn-sm button-effect"><i data-feather="video"></i></div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="contact-box">
+                    <div class="profile unreachable"><img class="bg-img" src="../assets/images/contact/4.jpg" alt="Avatar"/></div>
+                    <div class="details">
+                      <h5>Jony Lynetin</h5>
+                      <h6>+44 55124 2524</h6>
+                    </div>
+                    <div class="contact-action">
+                      <div class="icon-btn btn-outline-primary btn-sm button-effect"><i data-feather="phone"></i></div>
+                      <div class="icon-btn btn-outline-success btn-sm button-effect"><i data-feather="video"></i></div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="contact-box">
+                    <div class="profile online"><img class="bg-img" src="../assets/images/contact/4.jpg" alt="Avatar"/></div>
+                    <div class="details">
+                      <h5>Jony Lynetin</h5>
+                      <h6>+54 541447 255 </h6>
+                    </div>
+                    <div class="contact-action">
+                      <div class="icon-btn btn-outline-primary btn-sm button-effect"><i data-feather="phone"></i></div>
+                      <div class="icon-btn btn-outline-success btn-sm button-effect"><i data-feather="video"></i></div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of display when + is clicked -->
+
+    </div>
+
+    <!-- START FAVOURITES PANEL (drawer content) -->
+    <div class="fevorite-tab dynemic-sidebar" id="favourite">
+      <div class="theme-title">
+        <div class="media">
+          <div> 
+            <h2>Favourite</h2>
+            <h4>Last Recent</h4>
+          </div>
+          <div class="media-body text-right">  
+            <!-- search favourite  -->
+            <a class="icon-btn btn-outline-light btn-sm m-r-15 search"> 
+              <i data-feather="search"></i>
+            </a>
+            <form class="form-inline search-form">
+              <div class="form-group">
+                <input class="form-control-plaintext" type="search" placeholder="Search.."/>
+                <div class="icon-close close-search"></div>
+              </div>
+            </form>
+            <!-- end search -->
+            <!-- add contact button (modal appears on click)-->
+            <a class="icon-btn btn-outline-light btn-sm m-r-15"  data-toggle="modal" data-target="#addcallmodal">
+              <i data-feather="plus"> </i>
+            </a>
+            <!-- end add contact button (modal appears on click)-->
+
+            <!-- close favourites drawer content button-->
+            <a class="icon-btn btn-outline-light btn-sm close-panel" >
+              <i data-feather="x"></i>
+            </a>
+            <!-- end close favourites drawer content button-->
+
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-info"> No favourites </div>
+<!-- TODO: uncomment -->
+<!-- 
+      <ul class="chat-main">
+        <li>
+          <div class="chat-box">
+            <div class="media">
+              <div class="profile offline"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+              <div class="details">
+                <h5>Josephin water</h5>
+                <h6>Alabma , USA</h6>
+              </div>
+              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm pull-right favourite" > <i data-feather="star"> </i></a></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="chat-box">
+            <div class="media">
+              <div class="profile online"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+              <div class="details">
+                <h5>Jony Lynetin</h5>
+                <h6>Los Angeles, California</h6>
+              </div>
+              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm pull-right favourite" > <i data-feather="star"> </i></a></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="chat-box">
+            <div class="media">
+              <div class="profile busy"><img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+              <div class="details">
+                <h5>Sufiya Elija</h5>
+                <h6>Glasgow , Scotland</h6>
+              </div>
+              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm pull-right favourite" > <i data-feather="star"> </i></a></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="chat-box">
+            <div class="media">
+              <div class="profile unreachable"><img class="bg-img" src="../assets/images/contact/4.jpg" alt="Avatar"/></div>
+              <div class="details">
+                <h5>Pabelo Mukrani</h5>
+                <h6>Leicester , England</h6>
+              </div>
+              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm pull-right favourite" > <i data-feather="star"> </i></a></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="chat-box">
+            <div class="media">
+              <div class="profile offline"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+              <div class="details">
+                <h5>Josephin water</h5>
+                <h6>Alabma , USA</h6>
+              </div>
+              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm pull-right favourite" > <i data-feather="star"> </i></a></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="chat-box">
+            <div class="media">
+              <div class="profile online"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+              <div class="details">
+                <h5>Josephin water</h5>
+                <h6>Alabma , USA</h6>
+              </div>
+              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm pull-right favourite" > <i data-feather="star"> </i></a></div>
+            </div>
+          </div>
+        </li>
+      </ul> -->
+    </div>
+    <!-- end START FAVOURITES PANEL (drawer content) -->
+
+
+    <!-- START DOCUMENT PANEL (drawer content) -->
+    <app-document-list></app-document-list>
+    <!-- END DOCUMENT PANEL (drawer content) --> 
+
+    <!-- START CONTACT LIST PANEL (drawer content) -->
+    <app-contact-list [userInfoObject]="userInfoObject" (onclickedContact)="handleClickedContact($event)" [chatMessagesObject]="chatMessagesObject"></app-contact-list>
+    <!-- END CONTACT LIST PANEL (drawer content) -->
+
+    <!-- START NOTIFICATION TAB (drawer content) -->
+    <div class="notification-tab dynemic-sidebar custom-scroll" id="notification">
+      <div class="theme-title">
+        <div class="media">
+          <div> 
+            <h2>Notification</h2>
+            <h4>List of notification</h4>
+          </div>
+          <!-- close button -->
+          <div class="media-body text-right">   
+            <a class="icon-btn btn-outline-light btn-sm close-panel">
+              <i data-feather="x"></i>
+            </a>
+          </div>
+        </div>
+        <!-- end close button -->
+      </div>
+      <!-- start notification list -->
+      <div 
+        *ngIf="!notificationsArray || notificationsArray.length==0"
+        class="alert alert-info"
+      >
+        No new Notifications 
+      </div>
+      <ul class="chat-main"> 
+        <!-- one nitification -->
+        <li *ngFor="let notification of notificationsArray">
+          <div class="chat-box notification">
+            <!-- user image -->
+            <div 
+              [className]="notification.from.profilePictureUrl?'profile offline':'profile bg-success offline'">
+              <img className="bg-img" *ngIf="notification.from.profilePictureUrl" src={{notification.from.profilePictureUrl}} alt="Avatar"/>
+              <span *ngIf="!notification.from.profilePictureUrl && notification.from.fullName.split(' ').length>1">{{ notification.from.fullName.split(' ')[0].split('')[0]  }}{{ notification.from.fullName.split(' ')[1].split('')[0]}}</span>
+              <span *ngIf="!notification.from.profilePictureUrl && notification.from.fullName.split(' ').length==1">{{ notification.from.fullName.split('')[0]}}</span>
+            </div> 
+            <!-- if group invitation -->
+            <!-- <ng-template #showGroupNotificationsImage>
+              <div [className]="notification.from.profilePictureUrl?'profile offline':'profile bg-primary offline'">
+                <img class="bg-img" *ngIf="notification.from.profilePictureUrl" src={{notification.from.profilePictureUrl}} alt="Avatar"/>
+                <span *ngIf="!notification.from.profilePictureUrl && notification.from.fullName.split(' ').length>1">{{ notification.from.fullName.split(' ')[0].split('')[0]  }}{{ notification.from.fullName.split(' ')[1].split('')[0]}}</span>
+                <span *ngIf="!notification.from.profilePictureUrl && notification.from.fullName.split(' ').length==1">{{ notification.from.fullName.split('')[0]}}</span>
+              </div> 
+            </ng-template> -->
+
+            <!-- end user image -->
+            <div class="details">
+              <span>{{ notification.from.fullName  }}</span>
+              <h5>{{ notification.title }}</h5>
+              <p>{{ notification.message }}</p> 
+            </div>
+            <div class="date-status">
+              <h6>{{  notification.createdAt }}</h6>
+            </div>
+          </div>
+          <div *ngIf="notification.type=='friend_request'">
+            <a 
+            class="btn btn-outline-primary btn-sm mr-1" 
+            *ngIf="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.declineIsClicked==true">
+                <app-loading-spinner></app-loading-spinner>
+            </a> 
+            <ng-template 
+              [ngIf]="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.declineIsClicked==false || notificationClickedButtonCheckerObject.notification!=notification">
+              <button 
+              class="btn btn-outline-primary btn-sm mr-1" 
+              type="button" (click)="handleDeclineFriendRequestButtonClick(notification)"
+              >Decline</button>
+            </ng-template>
+
+            <!-- <button class="btn btn-outline-primary btn-sm mr-1" (click)="handleDeclineFriendRequestButtonClick(notification)">Decline</button> -->
+            <a 
+            class="btn btn-success btn-sm" 
+            *ngIf="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.acceptIsClicked==true">
+                <app-loading-spinner></app-loading-spinner>
+            </a> 
+            <ng-template 
+              [ngIf]="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.acceptIsClicked==false || notificationClickedButtonCheckerObject.notification!=notification"> 
+              <button 
+              class="btn btn-success btn-sm" 
+              type="button" (click)="handleAcceptFriendRequestButtonClick(notification)"
+              >Accept</button>
+            </ng-template>
+            <!-- <button class="btn btn-success btn-sm" (click)="handleAcceptFriendRequestButtonClick(notification)">Accept</button> -->
+          </div>
+          <div *ngIf="notification.type=='group_invitation'">
+            <!-- <button class="btn btn-outline-primary btn-sm mr-1" (click)="handleDeclineGroupInviteRequestButtonClick(notification)">Decline</button> -->
+            <a 
+            class="btn btn-outline-primary btn-sm mr-1" 
+            *ngIf="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.declineIsClicked==true">
+                <app-loading-spinner></app-loading-spinner>
+            </a> 
+            <ng-template
+              [ngIf]="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.declineIsClicked==false || notificationClickedButtonCheckerObject.notification!=notification ">
+              <button 
+              class="btn btn-outline-primary btn-sm mr-1" 
+              type="button" (click)="handleDeclineGroupInviteRequestButtonClick(notification)"
+              >Decline</button>
+            </ng-template>
+ 
+            <!-- <button class="btn btn-success btn-sm" (click)="handleAcceptGroupInvitationRequestButtonClick(notification)">Accept</button> -->
+            <!-- ;else showAcceptGroupInvitationRequestButton" -->
+            <a 
+            class="btn btn-success btn-sm" 
+            *ngIf="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.acceptIsClicked==true">
+                <app-loading-spinner></app-loading-spinner>
+            </a> 
+            <!-- #showAcceptGroupInvitationRequestButton -->
+            <ng-template 
+               [ngIf]="notificationClickedButtonCheckerObject.notification==notification && notificationClickedButtonCheckerObject.acceptIsClicked==false || notificationClickedButtonCheckerObject.notification!=notification ">
+              <button 
+              class="btn btn-success btn-sm" 
+              type="button" (click)="handleAcceptGroupInvitationRequestButtonClick(notification)"
+              >Accept</button>
+            </ng-template>
+          </div>
+        </li>
+        <!-- end one notification -->
+        <!-- <li>
+          <div class="chat-box notification">
+            <div class="profile bg-success offline">
+              <span>J</span>
+            </div>
+            <div class="details">
+              <span>Jony Today Birthday</span>
+              <h5>Upload New Photos</h5>
+              <p>Lorem Ipsum is simply dummy text of the printing.</p>
+            </div>
+            <div class="date-status">
+              <h6>1 hour ago</h6>
+            </div>
+          </div>
+        </li> -->
+        <!-- <li>
+          <div class="chat-box notification">
+            <div class="profile offline">
+              <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/>
+            </div>
+            <div class="details">
+              <span>Sufiya Elija</span>
+              <h5>Comment On your Photo</h5>
+              <p>Lorem Ipsum is simply dummy text of the printing.</p>
+            </div>
+            <div class="date-status">
+              <h6>5 hour ago</h6>
+            </div>
+          </div>
+        </li> -->
+        <!-- <li>
+          <div class="chat-box notification">
+            <div class="profile unreachable">
+              <img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+            <div class="details">
+              <span>Pabelo Mukrani</span>
+              <h5>Invite Your New Friend</h5>
+              <p>Lorem Ipsum is simply dummy text of the printing.</p>
+            </div>
+            <div class="date-status">
+              <h6>6 hour ago</h6>
+            </div>
+          </div>
+        </li> -->
+        <!-- <li>
+          <div class="chat-box notification">
+            <div class="profile bg-success offline">
+              <span>PM</span>
+            </div>
+            <div class="details">
+              <span>Pabelo Mukrani</span>
+              <h5>Update Profile Picture</h5>
+              <p>Lorem Ipsum is simply dummy text of the printing.</p>
+            </div>
+            <div class="date-status">
+              <h6>6 hour ago</h6>
+            </div>
+          </div>
+        </li> -->
+      </ul>
+      <!-- end notification list -->
+    </div>
+    <!-- END NOTIFICATION TAB (drawer content) -->
+
+
+    <!-- START SETTINGS TAB (drawer content) -->
+    <div class="settings-tab dynemic-sidebar custom-scroll" id="settings">
+      <div class="theme-title">
+        <div class="media">
+          <div> 
+            <h2>Settings</h2>
+            <h4>Change your app setting.</h4>
+          </div>
+          <!-- close button -->
+          <div class="media-body text-right">   
+            <a class="icon-btn btn-outline-light btn-sm close-panel">
+              <i data-feather="x"></i>
+            </a>
+          </div>
+          <!-- end close button -->
+        </div>
+
+        <div class="profile-box">
+          <div class="media">
+            <!-- user image -->
+            <div class="profile">
+              <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/>
+            </div>
+            <!-- end user image -->
+            <div class="details">
+              <!-- name -->
+              <h5>Josephin water</h5>
+              <!-- location country -->
+              <h6>Alabma , USA</h6>
+            </div>
+            <!-- userdetails edit form -->
+            <div class="details edit">
+              <form class="form-radious form-sm">
+                <div class="form-group mb-2">
+                  <input class="form-control" type="text" name="username" value="Josephin water"/>
+                </div>
+                <div class="form-group mb-0">
+                  <input class="form-control" type="text" name="address" value="Alabma , USA"/>
+                </div>
+              </form>
+            </div>
+            <!-- end user details edit form -->
+            <!-- edit button -->
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light btn-sm pull-right edit-btn"> 
+                <i data-feather="edit"> </i>
+              </a>
+            </div>
+            <!-- end edit button -->
+          </div>
+        </div>
+
+      </div>
+      <!-- start Account block -->
+      <div class="setting-block">
+        <!-- start account drawer -->
+        <div class="block">                  
+          <div class="media">
+            <div class="media-body">
+              <h3>Account</h3>
+            </div>
+            <!-- master/drawer opener -->
+            <div class="media-right">
+              <a class="icon-btn btn-outline-light btn-sm pull-right previous"> 
+                <i data-feather="chevron-left"> </i>
+              </a>
+            </div>
+            <!-- end master/drawer oppener -->
+          </div>
+
+          <div class="theme-according" id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingTwo" role="heading" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a>Security<i class="fa fa-angle-down"></i></a>
+              </div>
+              <div class="collapse show" id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-body">
+                      <h5>Show Security notification</h5>
+                    </div>
+                    <div class="media-right"> 
+                      <input class="js-switch8" type="checkbox"/>
+                    </div>
+                  </div>
+                  <p> 
+                    <b>Note : </b>turn on this setting to receive notification when a contact's security code has been changes.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingOne" role="heading" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                <a>Privacy<i class="fa fa-angle-down"></i></a>
+              </div>
+              <div class="collapse" id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                  <ul class="privacy">
+                    <li> 
+                      <h5>Last seen</h5>
+                      <input class="js-switch10" type="checkbox" checked=""/>
+                      <p> <b>Note : </b>turn on this setting to whether your contact can see last seen or not.</p>
+                    </li>
+                    <li> 
+                      <h5>Profile Photo</h5>
+                      <input class="js-switch11" type="checkbox"/>
+                      <p>
+                         turn on this setting to whether your contact can see your profile or not.</p>
+                    </li>
+                    <li> 
+                      <h5>About</h5>
+                      <input class="js-switch12" type="checkbox"/>
+                      <p> <b>Note : </b>turn on this setting to whether your contact can see about status or not.</p>
+                    </li>
+                    <li> 
+                      <h5>Status</h5>
+                      <input class="js-switch14" type="checkbox"/>
+                      <p> <b>Note : </b>turn on this setting to whether your contact can see your status or not.</p>
+                    </li>
+                    <li> 
+                      <h5>Read receipts</h5>
+                      <input class="js-switch16" type="checkbox"/>
+                      <p> <b>Note : </b>If turn off this option you won't be able to see read recipts from contact. read receipts are always sent for group chats. </p>
+                    </li>
+                    <li> 
+                      <h5>Groups</h5>
+                      <input class="js-switch13" type="checkbox" checked=""/>
+                      <p> <b>Note : </b>turn on this setting to whether your contact can add in groups or not.  </p>
+                    </li>
+                    <li> 
+                      <h5>Screen Lock(Require Touch ID)</h5>
+                      <input class="js-switch17" type="checkbox"/>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingThree" role="heading" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><a>Two Step verification<i class="fa fa-angle-down"></i></a></div>
+              <div class="collapse" id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-body">
+                      <h5>Enable</h5>
+                    </div>
+                    <div class="media-right"> 
+                      <input class="js-switch9" type="checkbox"/>
+                    </div>
+                  </div>
+                  <p> <b>Note : </b>For added security, enable two-step verifiation, which will require a PIN when registering your phone number with Chitchat again.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingFour" role="heading" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><a>Change Number<i class="fa fa-angle-down"></i></a></div>
+              <div class="collapse" id="collapseFour" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body change-number">
+                  <h5>Your old country code & phone number</h5>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text form-control m-0">+</span>
+                    </div>
+                    <input class="form-control country-code" type="number" placeholder="01"/>
+                    <input class="form-control" type="number" placeholder="1234567895"/>
+                  </div>
+                  <h5>Your new country code & phone number</h5>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text form-control m-0">+</span>
+                    </div>
+                    <input class="form-control country-code" type="number" placeholder="01"/>
+                    <input class="form-control" type="number" placeholder=""/>
+                  </div>
+                  <div class="text-right">  
+                    <a class="btn btn-outline-primary button-effect btn-sm">confirm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingFive" role="heading" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><a>Request account info<i class="fa fa-angle-down"></i></a></div>
+              <div class="collapse" id="collapseFive" aria-labelledby="headingFive" data-parent="#accordion">
+                <div class="card-body"><a class="p-0 req-info" id="demo"  onclick="document.getElementById(&quot;demo&quot;).innerHTML = &quot;Request sent&quot;">Request Info                            </a>
+                  <p> <b>Note : </b>Create a report of your account information and settings, which you can access ot port to another app.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingSix" role="heading" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><a>Delete My account<i class="fa fa-angle-down"></i></a></div>
+              <div class="collapse" id="collapseSix" aria-labelledby="headingSix" data-parent="#accordion">
+                <div class="card-body"><a class="p-0 req-info font-danger" >Delete Account                            </a>
+                  <p> <b>Note :</b>Deleting your account will delete your account info, profile photo, all groups & chat history.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end account drawer -->
+        <!-- start account master -->
+        <div class="media">
+          <div class="media-body">
+            <h3>Account</h3>
+            <h4>Update Your Account Details</h4>
+          </div>
+          <div class="media-right"> <a class="icon-btn btn-outline-light btn-sm pull-right next" > <i data-feather="chevron-right">       </i></a></div>
+        </div>
+      </div>
+      <!-- end account master -->
+      <!-- End Account block -->
+
+
+      <!-- start Chat Block -->
+      <div class="setting-block">
+        <div class="block">                  
+          <div class="media">
+            <div class="media-body">
+              <h3>Chat</h3>
+            </div>
+            <!-- drawer opener button -->
+            <div class="media-right">
+              <a class="icon-btn btn-outline-light btn-sm pull-right previous"> 
+                <i data-feather="chevron-left"> </i>
+              </a>
+            </div>
+            <!-- end drawer opener button -->
+          </div>
+          
+          <ul class="help">
+            <li>
+              <h5>Chat Backup</h5>
+              <ul class="switch-list">
+                <li>
+                  <input class="js-switch5" type="checkbox" checked=""/>
+                  <h5>Auto Backup</h5>
+                </li>
+                <li>
+                  <input class="js-switch6" type="checkbox"/>
+                  <h5>Include document</h5>
+                </li>
+                <li>
+                  <input class="js-switch7" type="checkbox"/>
+                  <h5>Include Videos</h5>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h5>Chat wallpaper</h5>
+              <ul class="wallpaper">
+                <li><img class="bg-img" src="assets/images/wallpaper/2.jpg" alt="Avatar"/></li>
+                <li><img class="bg-img" src="assets/images/wallpaper/1.jpg" alt="Avatar"/></li>
+                <li><img class="bg-img" src="assets/images/wallpaper/3.jpg" alt="Avatar"/></li>
+                <li><img class="bg-img" src="assets/images/wallpaper/4.jpg" alt="Avatar"/></li>
+                <li><img class="bg-img" src="assets/images/wallpaper/5.jpg" alt="Avatar"/></li>
+                <li><img class="bg-img" src="assets/images/wallpaper/6.jpg" alt="Avatar"/></li>
+              </ul>
+            </li>
+            <li>
+              <h5> <a>Archive all chat</a></h5>
+            </li>
+            <li>
+              <h5> <a> Clear all chats</a></h5>
+            </li>
+            <li>
+              <h5> <a class="font-danger">Delete all chats</a></h5>
+            </li>
+          </ul>
+        </div>
+
+        <!-- start chat Master -->
+        <div class="media">
+          <div class="media-body">
+            <h3>Chat</h3>
+            <h4>Control Your Chat Backup</h4>
+          </div>
+          <div class="media-right"> 
+            <a class="icon-btn btn-outline-light btn-sm pull-right next"> 
+              <i data-feather="chevron-right"> </i>
+            </a>
+          </div>
+        </div>
+        <!-- end Chat master -->
+      </div>
+      <!-- end Chat Block -->
+
+
+      <!-- start Intergration Block -->
+      <div class="setting-block">
+        <div class="block">                  
+          <div class="media">
+            <div class="media-body">
+              <h3>Integrating</h3>
+            </div>
+            <div class="media-right"> 
+              <a class="icon-btn btn-outline-light btn-sm pull-right previous"> 
+                <i data-feather="chevron-left"> </i>
+              </a>
+            </div>
+          </div>
+          <ul class="integratin">
+            <li>
+              <div class="media">
+                <div class="media-left"> 
+                  <a class="fb" href="https://www.facebook.com/login" target="_blank">
+                    <i class="fa fa-facebook"></i>
+                    <h5>Facebook   </h5></a></div>
+                <div class="media-right">
+                  <div class="profile">
+                    <img class="bg-img" src="assets/images/contact/1.jpg" alt="Avatar"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="media">
+                <div class="media-left"> 
+                  <a class="insta" href="https://www.instagram.com/accounts/login/?hl=en" target="_blank">
+                    <i class="fa fa-instagram"></i>
+                    <h5>instagram</h5>
+                  </a>
+                </div>
+                <div class="media-right">
+                  <div class="profile">
+                    <img class="bg-img" src="assets/images/contact/2.jpg" alt="Avatar"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="media">
+                <div class="media-left"> 
+                  <a class="twi" href="https://twitter.com/login" target="_blank">
+                    <i class="fa fa-twitter"></i>
+                    <h5>twitter   </h5>
+                  </a>
+                </div>
+                <div class="media-right">
+                  <div class="profile">
+                    <img class="bg-img" src="assets/images/contact/3.jpg" alt="Avatar"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="media">
+                <div class="media-left"> 
+                  <a class="ggl" href="https://accounts.google.com/signin/v2/identifier?service=mail&amp;passive=true&amp;rm=false&amp;continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&amp;ss=1&amp;scc=1&amp;ltmpl=default&amp;ltmplcache=2&amp;emr=1&amp;osid=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin" target="_blank">
+                    <i class="fa fa-google"></i>
+                    <h5>google   </h5>
+                  </a>
+                </div>
+                <div class="media-right">
+                  <div class="profile">
+                    <img class="bg-img" src="assets/images/contact/2.jpg" alt="Avatar"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="media">
+                <div class="media-left"> 
+                  <a class="slc">
+                    <i class="fa fa-slack"></i>
+                    <h5>Slack   </h5>
+                  </a>
+                </div>
+                <div class="media-right">
+                  <div class="profile">
+                    <a href="https://slack.com/get-started#/" target="_blank">
+                      <i data-feather="plus-circle"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- intergrating master -->
+        <div class="media">
+          <div class="media-body">
+            <h3>Integratin</h3>
+            <h4>Sync Your Other Social Account</h4>
+          </div>
+          <div class="media-right"> <a class="icon-btn btn-outline-light btn-sm pull-right next" > <i data-feather="chevron-right">       </i></a></div>
+        </div>
+        <!-- end intergrating master -->
+      </div>
+      <!-- end Intergration Block -->
+
+
+
+      <!-- start Help Block -->
+      <div class="setting-block">
+        <div class="block">                  
+          <div class="media">
+            <div class="media-body">
+              <h3>Help</h3>
+            </div>
+            <div class="media-right"> 
+              <a class="icon-btn btn-outline-light btn-sm pull-right previous"> 
+                <i data-feather="chevron-left"> </i>
+              </a>
+            </div>
+          </div>
+          <ul class="help">
+            <li>
+              <h5> <a >FAQ</a></h5>
+            </li>
+            <li>
+              <h5> <a > Contact Us</a></h5>
+            </li>
+            <li>
+              <h5> <a >Terms and Privacy Policy</a></h5>
+            </li>
+            <li>
+              <h5> <a >Licenses</a></h5>
+            </li>
+            <li> 
+              <h5> <a >2019 - 20 Powered by Pixelstrap</a></h5>
+            </li>
+          </ul>
+        </div>
+        <!-- help master -->
+        <div class="media">
+          <div class="media-body">
+            <h3>Help</h3>
+            <h4>You are Confusion, Tell me</h4>
+          </div>
+          <div class="media-right"> 
+            <a class="icon-btn btn-outline-light btn-sm pull-right next"> 
+              <i data-feather="chevron-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- end help master -->
+      </div>
+      <!-- end Help Block -->
+
+    </div>
+    <!-- END SETTINGS TAB (drawer content) -->
+
+    <!-- START STATUS TAB (drawer content : default on view) -->
+    <div class="status-tab custom-scroll dynemic-sidebar" id="status">
+      <div class="my-status-box">
+        <div class="status-content">
+          <div class="media">
+            <div class="img-status">
+              <div class="user-status two">
+                <!-- user status image  -->
+                <img class="img-fluid bg-img" src="assets/images/avtar/girls.jpg" alt="status"/>
+              </div>
+              <div class="upload-img">
+                <!-- upload status file -->
+                <input type="file"/>
+              </div>
+            </div>
+            <div class="media-body">
+              <h3>my status</h3>
+              <p>tap to add status Update</p>
+            </div>
+            <div>
+              <!-- close button -->
+              <a class="icon-btn btn-outline-light btn-sm close-panel">
+                <i data-feather="x"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- recent status box -->
+      <div class="contact-status-box">
+        <div class="theme-title">
+          <h3>Recent Update</h3>
+        </div>
+        <div class="alert alert-info">no recent updates</div>
+        <!-- <div class="status-content"> -->
+          <!--  status list -->
+          <!-- <ul>
+            <li class="user-status">
+              <a class="lightbox img-status status" href="#statusbox">
+                <img class="img-fluid bg-img" src="../assets/images/status-img/small/sm-1.jpg" alt="status"/>
+              </a>
+              <div class="lightbox-target" id="statusbox">
+                <img src="assets/images/status-img/large/lg-1.jpg" alt="status"/>
+                <a class="lightbox-close"></a>
+              </div>
+            </li>
+            <li>
+              <h5>Josephin water</h5>
+              <p>today , 8:30am</p>
+            </li>
+          </ul> -->
+        <!-- </div> -->
+            <!-- one status -->
+        <!-- <div class="status-content">
+          <ul>
+            <li class="user-status">
+              <a class="lightbox img-status status" data_href="#statusbox2">
+                <img class="img-fluid bg-img" src="../assets/images/status-img/small/sm-2.jpg" alt="status"/>
+              </a>
+              <div class="lightbox-target" id="statusbox2">
+                <img src="assets/images/status-img/large/lg-2.jpg" alt="status"/>
+                <a class="lightbox-close"></a>
+              </div>
+            </li>
+            <li>
+              <h5>Jony Lynetin</h5>
+              <p>today , 10:30am</p>
+            </li>
+          </ul>
+        </div> -->
+            <!-- one status -->
+        <!-- <div class="status-content">
+          <ul>
+            <li class="user-status">
+              <a class="lightbox img-status status" href="#statusbox3">
+                <img class="img-fluid bg-img" src="../assets/images/status-img/small/sm-3.jpg" alt="status"/></a>
+              <div class="lightbox-target" id="statusbox3">
+                <img src="assets/images/status-img/large/lg-3.jpg" alt="status"/><a class="lightbox-close"></a>
+              </div>
+            </li>
+            <li>
+              <h5>Sufiya Elija</h5>
+              <p>today , 11:00am</p>
+            </li>
+          </ul>
+        </div> -->
+        <!-- <div class="status-content">
+          <ul>
+            <li class="user-status">
+              <a class="lightbox img-status status" href="#statusbox4">
+                <img class="img-fluid bg-img" src="../assets/images/status-img/small/sm-4.jpg" alt="status"/>
+              </a>
+              <div class="lightbox-target" id="statusbox4">
+                <img src="assets/images/status-img/large/lg-4.jpg" alt="status"/>
+                <a class="lightbox-close" ></a>
+              </div>
+            </li>
+            <li>
+              <h5>Mukrani Pabelo </h5>
+              <p>today , 9:55am</p>
+            </li>
+          </ul>
+        </div> -->
+        <!-- <div class="status-content">
+          <ul>
+            <li class="user-status">
+              <a class="lightbox img-status status" href="#statusbox5">
+                <img class="img-fluid bg-img" src="../assets/images/status-img/small/sm-5.jpg" alt="status"/>
+              </a>
+              <div class="lightbox-target" id="statusbox5">
+                <img src="assets/images/status-img/large/lg-5.jpg" alt="status"/>
+                <a class="lightbox-close" ></a>
+              </div>
+            </li>
+            <li>
+              <h5>Pabelo Mukrani</h5>
+              <p>today , 12:05am</p>
+            </li>
+          </ul>
+        </div> -->
+        <!-- <div class="status-content">
+          <ul>
+            <li class="user-status">
+              <a class="lightbox img-status status" href="#statusbox6">
+                <img class="img-fluid bg-img" src="../assets/images/status-img/small/sm-3.jpg" alt="status"/>
+              </a>
+              <div class="lightbox-target" id="statusbox6">
+                <img src="assets/images/status-img/large/lg-3.jpg" alt="status"/>
+                <a class="lightbox-close" ></a>
+              </div>
+            </li>
+            <li>
+              <h5>Sufiya Elija</h5>
+              <p>today , 11:00am</p>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+    <!-- END STATUS TAB (drawer content : default on view) -->
+
+  </aside>

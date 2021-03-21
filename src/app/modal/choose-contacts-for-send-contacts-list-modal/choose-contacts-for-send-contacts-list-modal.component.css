@@ -1,0 +1,36 @@
+.contactListToChooseAContactModal {
+    position: absolute;
+    bottom: 8em;
+    right: 10em;
+    z-index: 500!important;
+    border-radius: 2em;
+    width: 40%;
+}
+.contactListToChooseAContactModal_header {
+    width: 100%;
+    height: 15%;
+    
+}
+.contactListToChooseAContactModal ul {
+    overflow-y: scroll;
+    max-height: calc(20em);
+}
+.contactListToChooseAContactModal li {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 15%;
+
+}
+.contactListToChooseAContactModal li div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.contactListToChooseAContactModal .m_content{
+    height: 30em;
+    overflow: hidden;
+}
+.contactListToChooseAContactModal .m_footer {
+    margin-top: -1em;
+}

@@ -1,0 +1,301 @@
+<div 
+  class="contact-chat"
+  *ngIf="clickedContact&&clickedContact.fullName && orderedMessages">  
+
+  <ul class="chatappend">
+    <li 
+      *ngFor="let message of orderedMessages[clickedContact._id]"
+      [className]="clickedContact._id==message.from? 'sent' :'replies'">
+      <div class="media">
+
+        <!-- <div class="profile mr-4">
+          <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/>
+        </div> -->
+        <div  *ngIf="clickedContact._id==message.from" [className]="clickedContact._id!=message.from ?'bg-primary  profile mr-4':'bg-primary profile mr-4'">
+          <img class="bg-img" *ngIf="clickedContact.profilePictureUrl" src={{clickedContact.profilePictureUrl}} alt="Avatar"/>
+          <span style="color: rgb(46, 46, 185);" *ngIf="!clickedContact.profilePictureUrl && clickedContact.fullName.split(' ').length>1">{{ clickedContact.fullName.split(' ')[0].split('')[0]  }}{{ clickedContact.fullName.split(' ')[1].split('')[0]}}</span>
+          <span style="color: rgb(46, 46, 185);" *ngIf="!clickedContact.profilePictureUrl && clickedContact.fullName.split(' ').length==1">{{ clickedContact.fullName.split('')[0]}}</span>
+        </div>
+
+        <div  *ngIf="clickedContact._id!=message.from" [className]="clickedContact._id!=message.from ?'bg-primary  profile mr-4':'bg-primary profile mr-4'">
+          <img class="bg-img" *ngIf="userInfoObject.profilePictureUrl" src={{userInfoObject.profilePictureUrl}} alt="Avatar"/>
+          <span style="color: rgb(46, 46, 185);" *ngIf="!userInfoObject.profilePictureUrl && userInfoObject.fullName.split(' ').length>1">{{ userInfoObject.fullName.split(' ')[0].split('')[0]  }}{{ userInfoObject.fullName.split(' ')[1].split('')[0]}}</span>
+          <span style="color: rgb(46, 46, 185);" *ngIf="!userInfoObject.profilePictureUrl && userInfoObject.fullName.split(' ').length==1">{{ userInfoObject.fullName.split('')[0]}}</span>
+        </div>
+
+        <div class="media-body">
+          <div class="contact-name">
+            <!-- <h5>{{ message.from }}</h5> -->
+            <h5 *ngIf="clickedContact._id==message.from">{{ clickedContact.fullName }}</h5>
+            <h5 *ngIf="clickedContact._id!=message.from">{{ userInfoObject.fullName }}</h5>
+
+            <!-- <h6>01:40 AM</h6> -->
+            <h6>{{ message.messages[0].time}}</h6> 
+            <ul class="msg-box">
+              <li class="msg-setting-main" *ngFor="let message_ of message.messages">
+
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="message_.hasContact" class="document">
+                  <i class="fa fa-user-circle"></i>
+                  <div class="details">
+                    <!-- <div class="contactsMessageDisplay_imageDiv">
+                      <img src="assets/images/avtar/noImage.png" class="bg-img"/>
+                    </div> -->
+                    <h5>Name: {{ message_.contactName }}</h5>
+                    <h6>Email: {{ message_.contactEmail }}</h6>
+                    <h6>Phone: {{ message_.contactPhoneNumber }}</h6>
+                  </div>
+                  <div class="icon-btns">
+                    <a 
+                      (click)="handleMessageClick(message_)"
+                      class="icon-btn btn-outline-light" >
+                      <i class="fa fa-plus"> </i>
+                    </a>
+                  </div>
+                </div>
+
+                <div 
+                  *ngIf="message_.hasAttachment && !message_.hasContact"
+                  class="document"><i [className]="whichFileIcon(message_)"></i>
+                  <div class="details">
+                    <h5>{{ message_.attachmentUrl.split('/')[message_.attachmentUrl.split('/').length-1 ] }}</h5>
+                    <h6>25mb Seprate file</h6>
+                  </div>
+                  <div class="icon-btns">
+                    <a 
+                      class="icon-btn btn-outline-light" 
+                      (click)="handleMessageClick(message_)"
+                    ><i class="fa fa-download"> </i></a></div>
+                </div>
+                <br/>
+                <h5 *ngIf="!message_.hasAttachment && !message_.hasContact">{{ message_.messageText }}</h5>
+                <div class="badge badge-success sm ml-2">{{ message_.status }}</div>
+
+              </li>
+
+              <!-- <li class="msg-setting-main">
+                <div class="document"><i class="fa fa-file-excel-o font-primary"></i>
+                  <div class="details">
+                    <h5>Document.xlsx</h5>
+                    <h6>25mb Seprate file</h6>
+                  </div>
+                  <div class="icon-btns"><a class="icon-btn btn-outline-light" href="http://themes.pixelstrap.com/chitchat/assets/doc/Document.xlsx" target="_blank"><i data-feather="download"> </i></a></div>
+                </div>
+                <div class="badge badge-dark sm ml-2"> D</div>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li> -->
+
+              <!-- <li 
+                *ngFor="let messageOthers of message.messages; index as i; first as isFirst"
+                (click)="handleMessageClick(messageOthers)"
+                class="msg-setting-main"
+                >
+                <h5> {{ messageOthers.messageText }}</h5>
+                <div class="badge badge-success sm ml-2">{{ messageOthers.status }}</div>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+    <!-- <li class="sent">
+      <div class="media">
+        <div class="profile mr-4"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+        <div class="media-body">
+          <div class="contact-name">
+            <h5>Josephin water</h5>
+            <h6>01:35 AM</h6>
+            <ul class="msg-box">
+              <li class="msg-setting-main">
+                <h5>Hi I am Josephin, can you help me to find best chat app?. </h5>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="msg-setting-main">
+                <h5> it should from elite auther &#128519;</h5>
+                <div class="badge badge-success sm ml-2"> R</div>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li> -->
+    <!-- <li class="replies">
+      <div class="media">
+        <div class="profile mr-4"><img class="bg-img" src="../assets/images/avtar/1.jpg" alt="Avatar"/></div>
+        <div class="media-body">
+          <div class="contact-name">
+            <h5>Alan josheph</h5>
+            <h6>01:40 AM</h6>
+            <ul class="msg-box">
+              <li class="msg-setting-main">
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <h5>Sure, chitchat is best theme for chating project, you can it check<a class="ml-1" href="https://themeforest.net/user/pixelstrap/portfolio" target="_blank">here.</a></h5>
+              </li>
+              <li class="msg-setting-main">
+                <div class="document"><i class="fa fa-file-excel-o font-primary"></i>
+                  <div class="details">
+                    <h5>Document.xlsx</h5>
+                    <h6>25mb Seprate file</h6>
+                  </div>
+                  <div class="icon-btns"><a class="icon-btn btn-outline-light" href="http://themes.pixelstrap.com/chitchat/assets/doc/Document.xlsx" target="_blank"><i data-feather="download"> </i></a></div>
+                </div>
+                <div class="badge badge-dark sm ml-2"> D</div>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li> -->
+    <!-- <li class="sent">
+      <div class="media">
+        <div class="profile mr-4"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+        <div class="media-body">
+          <div class="contact-name">
+            <h5>Josephin water</h5>
+            <h6>01:42 AM</h6>
+            <ul class="msg-box">
+              <li class="msg-setting-main">
+                <h5>I think it's best for my project.</h5>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="msg-setting-main">
+                <ul class="auto-gallery">
+                  <li><img class="bg-img" src="../assets/images/media/1.jpg" alt="Avatar"/></li>
+                  <li>   <img class="bg-img" src="../assets/images/media/2.jpg" alt="Avatar"/></li>
+                  <li>   <img class="bg-img" src="../assets/images/media/3.jpg" alt="Avatar"/></li>
+                </ul>
+                <div class="refresh-block">
+                  <div class="badge badge-outline-primary refresh sm ml-2"> <i data-feather="rotate-cw"></i></div>
+                  <div class="badge badge-danger sm ml-2">F</div>
+                </div>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li> -->
+    <!-- <li class="replies">
+      <div class="media">
+        <div class="profile mr-4"><img class="bg-img" src="../assets/images/avtar/1.jpg" alt="Avatar"/></div>
+        <div class="media-body">
+          <div class="contact-name">
+            <h5>Alan josheph</h5>
+            <h6>01:45 AM</h6>
+            <ul class="msg-box">
+              <li class="msg-setting-main">
+                <h5>If you have any other query then feel free to ask us.</h5>
+                <div class="msg-dropdown-main">
+                  <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                  <div class="msg-dropdown"> 
+                    <ul>
+                      <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                      <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                      <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                      <li><a href="#"><i class="ti-trash"></i>delete                  </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li> -->
+  </ul>
+</div>

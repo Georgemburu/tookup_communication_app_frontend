@@ -1,0 +1,48 @@
+@media (max-width: 1366px){
+    .message-input {
+        width: 60%;
+    }
+}
+
+@media (max-width: 1199.98px){
+    .message-input {
+        width: 65%;
+    }
+}
+
+@media (max-width: 1097.98px){
+    .message-input {
+        width: 62%;
+    }
+}
+
+@media (max-width: 1057.98px){
+    .message-input {
+        width: 60%;
+    }
+}
+
+@media (max-width: 1015.98px){
+    .message-input {
+        width: 58%;
+    }
+}
+
+@media (max-width: 938.98px){
+    .message-input {
+        width: 55%;
+    }
+}
+
+@media (max-width: 878.98px){
+    .message-input {
+        width: 53%;
+    }
+}
+
+@media (max-width: 825.98px){
+    .message-input {
+        width: 50%;
+    }
+}
+

@@ -1,0 +1,1 @@
+export type MediaStreamInitiator  = '[DIRECT]:VIDEO_CALL' | '[GROUP]:VIDEO_CALL' | '[DIRECT]:AUDIO_CALL' | '[GROUP]:AUDIO_CALL'

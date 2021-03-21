@@ -1,0 +1,174 @@
+<div class="document-tab dynemic-sidebar" id="document">
+    <div class="theme-title">
+      <div class="media">
+        <div> 
+          <h2>Document</h2>
+          <h4>List of document</h4>
+        </div>
+        <div class="media-body text-right">  
+          <!-- SEARCH -->
+           <!--search document button  -->
+          <a class="icon-btn btn-outline-light btn-sm m-r-15 search"> 
+            <i data-feather="search"></i>
+          </a>
+           <!-- end search document button  -->
+          <!-- search form (displays on search button click)-->
+          <form class="form-inline search-form">
+            <div class="form-group">
+              <input class="form-control-plaintext" type="search" placeholder="Search.."/>
+              <div class="icon-close close-search"></div>
+            </div>
+          </form>
+          <!-- end search form -->
+          <!-- END SEARCH -->
+
+          <!-- close button (document drawer panel)-->
+          <a class="icon-btn btn-outline-light btn-sm close-panel">
+            <i data-feather="x"></i>
+          </a>
+          <!-- end close button (document drawer panel)-->
+
+        </div>
+      </div>
+    </div>
+    <!-- start List of documents -->
+    <div *ngIf="!allFileDocumentsArray" class="alert alert-info">No documents</div>
+    <ul class="chat-main" *ngIf="allFileDocumentsArray">
+      <!-- one document -->
+      <li *ngFor="let document of allFileDocumentsArray">
+
+        <div class="chat-box">
+          <div class="media">
+            <!-- document type icon -->
+            <div class="profile">
+              <a class="icon-btn btn-outline-danger btn-xl pull-right rouded15">
+                <!-- <i class="fa fa-file-code-o"></i> -->
+                <i [className]="whichFileIcon(document)"></i>
+              </a>
+            </div>
+            <!-- end document type icon -->
+            <!-- document details -->
+            <div class="details">
+              <h5>{{ document.attachmentUrl.split('/')[document.attachmentUrl.split('/').length-1] }}</h5>
+              <h6>{{document.date}}, {{ document.month}} {{document.year}}</h6>
+            </div>
+            <!-- end document details -->
+            <!-- download document button -->
+            <div class="media-body">
+              <a 
+                class="icon-btn btn-outline-light btn-sm pull-right" 
+                (click)="handleDownloadDocument(document)"
+                >
+                <!-- <i data-feather="download"></i> -->
+                <i class="fa fa-download"></i>
+              </a>
+            </div>
+            <!-- end download document button -->
+          </div>
+        </div>
+
+      </li>
+      <!-- end one document -->
+      <!-- <li>
+        <div class="chat-box">
+          <div class="media">
+            <div class="profile">
+              <a class="icon-btn btn-outline-success btn-xl pull-right rouded15">
+                <i class="fa fa-file-video-o"></i>
+              </a>
+            </div>
+            <div class="details">
+              <h5>chapter1.MP4</h5>
+              <h6>3, Octomber 2019</h6>
+            </div>
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light btn-sm pull-right" href="http://themes.pixelstrap.com/chitchat/assets/doc/chapter1.MP4" target="_blank"> 
+                <i data-feather="download"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li> -->
+      <!-- <li>
+        <div class="chat-box">
+          <div class="media">
+            <div class="profile">
+              <a class="icon-btn btn-outline-primary btn-xl pull-right rouded15" >
+                <i class="fa fa-file-word-o"></i>
+              </a>
+            </div>
+            <div class="details">
+              <h5>salary.xlsx</h5>
+              <h6>5, Octomber 2019</h6>
+            </div>
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light btn-sm pull-right" href="http://themes.pixelstrap.com/chitchat/assets/doc/salary.xlsx" target="_blank"> 
+                <i data-feather="download"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li> -->
+      <!-- <li>
+        <div class="chat-box">
+          <div class="media">
+            <div class="profile">
+              <a class="icon-btn btn-outline-warning btn-xl pull-right rouded15" >
+                <i class="fa fa-file-pdf-o"></i>
+              </a>
+            </div>
+            <div class="details">
+              <h5>document.pdf</h5>
+              <h6>7, Octomber 2019</h6>
+            </div>
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light btn-sm pull-right" href="http://themes.pixelstrap.com/chitchat/assets/doc/document.pdf" target="_blank"> 
+                <i data-feather="download"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li> -->
+      <!-- <li>
+        <div class="chat-box">
+          <div class="media">
+            <div class="profile">
+              <a class="icon-btn btn-outline-danger btn-xl pull-right rouded15">
+                <i class="fa fa-file-text-o"></i>
+              </a>
+            </div>
+            <div class="details">
+              <h5>details.txt</h5>
+              <h6>20, Octomber 2019</h6>
+            </div>
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light btn-sm pull-right" href="http://themes.pixelstrap.com/chitchat/assets/doc/details.txt" target="_blank"> 
+                <i data-feather="download"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li> -->
+      <!-- <li>
+        <div class="chat-box">
+          <div class="media">
+            <div class="profile">
+              <a class="icon-btn btn-outline-success btn-xl pull-right rouded15">
+                <i class="fa fa-file-code-o"></i>
+              </a>
+            </div>
+            <div class="details">
+              <h5>messenger.html</h5>
+              <h6>2, octomber 2019</h6>
+            </div>
+            <div class="media-body">
+              <a class="icon-btn btn-outline-light btn-sm pull-right" href="http://themes.pixelstrap.com/chitchat/assets/doc/messenger.html" target="_blank">
+                <i data-feather="download"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li> -->
+    </ul>
+    <!-- end start List of documents -->
+  </div>

@@ -1,0 +1,71 @@
+<h4>Welcome to TookUp please login to your account.</h4>
+
+<div *ngIf="requestsErrorMessage" class="alert alert-danger">{{ requestsErrorMessage }}</div>
+
+<form class="form1" [formGroup]="loginFormGroup" (ngSubmit)="handleSubmitLoginForm()">
+    <div class="form-group">
+        <label class="col-form-label" for="inputEmail3">Email Address</label>
+        <input 
+            class="form-control" 
+            id="inputEmail3" 
+            type="email" 
+            placeholder="Demo@123gmail.com"
+            formControlName="email">
+        <div
+        class="text-danger"
+        *ngIf="loginFormGroup.controls?.email.invalid && loginFormGroup.controls?.email.touched"
+        >
+            * Email is required
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" for="inputPassword3">Password</label><span> </span>
+        <input 
+            class="form-control" 
+            id="inputPassword3" 
+            type="password" 
+            placeholder="Password"
+            formControlName='password'>
+        <div
+        class="text-danger"
+        *ngIf="loginFormGroup.controls?.password.invalid && loginFormGroup.controls?.password.touched"
+        >
+            * Password is required
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="rememberchk">
+            <div class="form-check">
+                <input class="form-check-input" id="gridCheck1" type="checkbox">
+                <label class="form-check-label" for="gridCheck1">Remember Me.</label>
+                <h6><a style="color:rgb(34, 34, 240);" (click)="notifyForgotPasswordBtnClicked.emit()">Forgot Password</a></h6>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+    <div class="buttons">
+        <!-- <a class="btn btn-primary button-effect btn-login"  (click)="handleLoginBtnClick()">
+        <span *ngIf="">
+            <app-loading-spinner></app-loading-spinner>
+        </span>
+        
+        <ng-template #></ng-template>
+        
+        </a> -->
+
+        <!-- start login button -->
+            <a >
+            <span class="btn button-effect  btn-success" *ngIf="loginBtnIsClicked;else showLoginText">
+                <app-loading-spinner></app-loading-spinner>
+            </span>
+            <ng-template #showLoginText>
+                <button type="submit" class="btn button-effect  btn-success" style="color:white;">Login</button>
+            </ng-template>
+            </a>
+
+        <!-- end login button -->
+
+        <h5>Don't have an account yet? <a style="color:blue;" (click)="notifyCreateAccountBtnClicked.emit()">Create Account</a></h5>
+    </div>
+    </div>
+</form>

@@ -1,0 +1,77 @@
+<div class="contactListToChooseAContactModal" *ngIf="CONTACT_messagingFileChoice==whichMessagingFileChoiceClicked">
+    <!-- contactListToChooseAContactModal -->
+    <!-- <div class="contactListToChooseAContactModal_header">
+      <p>Contacts List</p>
+    </div> -->
+    <div class="modal-content m_content"> 
+      <div class="modal-header">
+            <h5 class="modal-title" >
+                Contacts  <span class="badge badge-light">{{ selectedContactsFromModalArray.length }}</span>    
+            </h5>
+            
+            <button 
+                (click)="handleCancelButtonClick()"
+                type="button" 
+                class="close" 
+                data-dismiss="modal" 
+                aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body ">
+            <div *ngIf="!contactsArray || contactsArray.length==0" class="alert alert-info"> You have no contacts </div>
+                <ul 
+                    *ngIf="contactsArray && contactsArray.length>0"
+                    class="list-group" >
+                    <!-- one item -->
+                    <li 
+                        *ngFor="let contact of contactsArray"
+                        class="list-group-item">
+                    <!-- contact image -->
+                    <div>
+                        <div 
+                        [className]="contact.profilePictureUrl?'profile offline':'profile bg-success offline'">
+                        <img className="bg-img" *ngIf="contact.profilePictureUrl" src={{contact.profilePictureUrl}} alt="Avatar"/>
+                        <span *ngIf="!contact.profilePictureUrl && contact.fullName.split(' ').length>1">{{ contact.fullName.split(' ')[0].split('')[0]  }}{{ contact.fullName.split(' ')[1].split('')[0]}}</span>
+                        <span *ngIf="!contact.profilePictureUrl && contact.fullName.split(' ').length==1">{{ contact.fullName.split('')[0]}}</span>
+                        </div> 
+                        <!-- <div  -->
+                        <!-- className="profile bg-success offline"> -->
+                        <!-- <img className="bg-img" *ngIf="notification.from.profilePictureUrl" src={{notification.from.profilePictureUrl}} alt="Avatar"/> -->
+                            <!-- <span>{{ contact.fullName }}</span> -->
+                        <!-- <span *ngIf="!notification.from.profilePictureUrl && notification.from.fullName.split(' ').length==1">{{ notification.from.fullName.split('')[0]}}</span> -->
+                        <!-- </div>  -->
+                        <!-- <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"/> -->
+                    </div>
+                    <!-- contact details -->
+                    <div>
+                        <p>{{ contact.fullName }}</p>
+                        <p>{{ contact.email }}</p>
+                        <p>{{ contact.phoneNumber }}</p>
+                    </div>
+                    <!-- checkbox -->
+                    <div>
+                        <input 
+                            type="checkbox" 
+                            (change)="handleContactSelectCheckboxChangeEvent($event,contact)"
+                            />
+                    </div>
+                    </li>
+                    <!-- end one item -->
+                </ul>
+            </div>
+        <div class="modal-footer m_footer">
+            <button 
+                type="button" 
+                class="btn btn-secondary btn-sm" 
+                data-dismiss="modal"
+                (click)="handleCancelButtonClick()">Cancel</button>
+            <button 
+                type="button" 
+                class="btn btn-primary btn-sm"
+                (click)="handleOkButtonClick()">OK</button>
+        </div>
+    </div>
+     
+    <!-- <div> -->
+  </div>

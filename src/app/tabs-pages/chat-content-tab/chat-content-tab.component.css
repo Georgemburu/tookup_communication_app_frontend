@@ -1,0 +1,32 @@
+/* .contact-details {
+    width: 48%
+}  */
+
+/* contact details */
+/* @media (max-width: 1366px){
+    .contact-details {
+        width: 55%;
+    }
+} */
+@media (max-width: 992px){
+    .contact-details {
+        width: 51%;
+    }
+}
+    
+@media (max-width: 948px){
+    .contact-details {
+        width: 49%;
+    } 
+}
+    
+@media (max-width: 908px){
+    .contact-details {
+        width: 49%;
+    }
+}
+
+.chat1svg {
+    width: 60%;
+    margin: 10vw 20vh;
+}

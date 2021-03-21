@@ -1,0 +1,274 @@
+<div class="contact-list-tab dynemic-sidebar custom-scroll" id="contact-list">
+    <div class="theme-title">
+      <div class="media">
+        <div> 
+          <h2>Contact</h2>
+          <h4>Start talking now</h4>
+        </div>
+        <div class="media-body text-right"> 
+          <!-- search button  -->
+          <a class="icon-btn btn-outline-light btn-sm m-r-15 search"> 
+            <i data-feather="search"></i>
+          </a>
+          <!-- end search button  -->
+          <!-- search form -->
+          <form class="form-inline search-form">
+            <div class="form-group">
+              <input class="form-control-plaintext" type="search" placeholder="Search.."/>
+              <div class="icon-close close-search"> </div>
+            </div>
+          </form>
+          <!-- end search form -->
+          <!-- close button -->
+          <a class="icon-btn btn-outline-light btn-sm close-panel">
+            <i data-feather="x"></i>
+          </a>
+          <!-- end close button -->
+        </div>
+      </div>
+    </div>
+    <!-- start contacts list -->
+    <div 
+      *ngIf="!userInfoObject || !userInfoObject.contacts || userInfoObject.contacts.length==0"
+      class="alert alert-info"
+      >
+      No Contacts
+    </div>
+    <ul class="chat-main" *ngIf="userInfoObject"> 
+      <!-- one contact -->
+      <li *ngFor="let contact of userInfoObject.contacts " (click)="handleContactClick(contact)">            
+        <div class="chat-box">
+          <!-- <div class="profile offline">
+            <img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/>
+          </div> -->
+          <div [className]="contact.profilePictureUrl?'profile offline':'profile bg-success offline'">
+            <img class="bg-img" *ngIf="contact.profilePictureUrl" src={{contact.profilePictureUrl}} alt="Avatar"/>
+            <span *ngIf="!contact.profilePictureUrl && contact.fullName.split(' ').length>1">{{ contact.fullName.split(' ')[0].split('')[0]  }}{{ contact.fullName.split(' ')[1].split('')[0]}}</span>
+            <span *ngIf="!contact.profilePictureUrl && contact.fullName.split(' ').length==1">{{ contact.fullName.split('')[0]}}</span>
+
+          </div>
+          <div class="details">
+            <h5> {{ contact.fullName }}</h5>
+            <h6 *ngIf="chatMessagesObject && chatMessagesObject[contact._id]">{{ chatMessagesObject[contact._id][chatMessagesObject[contact._id].length-1].messageText }} </h6>
+            <h6 *ngIf="!chatMessagesObject || !chatMessagesObject[contact._id]"></h6>
+          </div>
+          <div class="date-status">
+            <h6>22/10/19</h6>
+            <h6 class="font-success status"> Seen</h6>
+          </div>
+        </div>
+      </li>
+      <!-- end one contact -->
+      <!-- <li>
+        <div class="chat-box">
+          <div class="profile online">
+            <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Jony Lynetin</h5>
+            <h6>Hello</h6>
+          </div>
+          <div class="date-status">
+            <h6>30/11/19</h6>
+            <div class="badge badge-primary sm">8</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile unreachable">
+            <img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Sufiya Elija</h5>
+            <h6>I need job, please help me.</h6>
+          </div>
+          <div class="date-status">
+            <h6>15/06/19</h6>
+            <h6 class="font-dark status"> Sending</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile busy">
+            <img class="bg-img" src="../assets/images/contact/4.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Pabelo Mukrani</h5>
+            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+          </div>
+          <div class="date-status">
+            <h6>04/06/19</h6>
+            <h6 class="font-danger status"> Failed</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile offline">
+            <img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Josephin water</h5>
+            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+          </div>
+          <div class="date-status">
+            <h6>22/10/19</h6>
+            <h6 class="font-success status"> Seen</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile online">
+            <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Jony Lynetin</h5>
+            <h6>Hello</h6>
+          </div>
+          <div class="date-status">
+            <h6>30/11/19</h6>
+            <div class="badge badge-primary sm">8</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile unreachable">
+            <img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Sufiya Elija</h5>
+            <h6>I need job, please help me.</h6>
+          </div>
+          <div class="date-status">
+            <h6>15/06/19</h6>
+            <h6 class="font-dark status"> Sending</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile online">
+            <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Jony Lynetin</h5>
+            <h6>Hello</h6>
+          </div>
+          <div class="date-status">
+            <h6>30/11/19</h6>
+            <div class="badge badge-primary sm">8</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile offline">
+            <img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Josephin water</h5>
+            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+          </div>
+          <div class="date-status">
+            <h6>22/10/19</h6>
+            <h6 class="font-success status"> Seen</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile online">
+            <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Jony Lynetin</h5>
+            <h6>Hello</h6>
+          </div>
+          <div class="date-status">
+            <h6>30/11/19</h6>
+            <div class="badge badge-primary sm">8</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile unreachable">
+            <img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Sufiya Elija</h5>
+            <h6>I need job, please help me.</h6>
+          </div>
+          <div class="date-status">
+            <h6>15/06/19</h6>
+            <h6 class="font-dark status"> Sending</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile busy">
+            <img class="bg-img" src="../assets/images/contact/4.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Pabelo Mukrani</h5>
+            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+          </div>
+          <div class="date-status">
+            <h6>04/06/19</h6>
+            <h6 class="font-danger status"> Failed</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile offline">
+            <img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Josephin water</h5>
+            <h6>Hi, i am josephin. How are you.. ! There are many variations of passages.</h6>
+          </div>
+          <div class="date-status">
+            <h6>22/10/19</h6>
+            <h6 class="font-success status"> Seen</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile online">
+            <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Jony Lynetin</h5>
+            <h6>Hello</h6>
+          </div>
+          <div class="date-status">
+            <h6>30/11/19</h6>
+            <div class="badge badge-primary sm">8</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile unreachable">
+            <img class="bg-img" src="../assets/images/contact/3.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Sufiya Elija</h5>
+            <h6>I need job, please help me.</h6>
+          </div>
+          <div class="date-status">
+            <h6>15/06/19</h6>
+            <h6 class="font-dark status"> Sending</h6>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="chat-box">
+          <div class="profile online">
+            <img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="details">
+            <h5>Jony Lynetin</h5>
+            <h6>Hello</h6>
+          </div>
+          <div class="date-status">
+            <h6>30/11/19</h6>
+            <div class="badge badge-primary sm">8</div>
+          </div>
+        </div>
+      </li> -->
+    </ul>
+    <!-- start contacts list -->
+  </div>

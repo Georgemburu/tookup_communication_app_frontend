@@ -1,0 +1,107 @@
+<h4>Create An Account.</h4>
+
+<div *ngIf="requestsErrorMessage" class="alert alert-danger"> {{ requestsErrorMessage }} </div>
+<form class="form1" [formGroup]="signUpForm" (ngSubmit)="submitSignupForm()">
+    <div class="form-group">
+        <label class="col-form-label" for="inputFullname3">Fullname</label>
+        <input 
+            class="form-control" 
+            id="inputFullname3" 
+            type="text" 
+            placeholder="Demo Name"
+            formControlName="fullName"
+            required >
+        <p
+        class="text-danger"
+        *ngIf="signUpForm.controls?.fullName.invalid && signUpForm.controls?.fullName.touched"
+        >
+            * Fullname is required
+        </p>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" for="inputEmail3">Email Address</label>
+        <input 
+            class="form-control" 
+            id="inputEmail3" 
+            type="email" 
+            placeholder="Demo@123gmail.com"
+            formControlName="email"
+            required>
+        <p
+        class="text-danger"
+        *ngIf="signUpForm.controls?.email.invalid && signUpForm.controls?.email.touched"
+        >
+            * Email is required
+        </p>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" for="inputphoneNumber3">Phone Number</label>
+        <input 
+            class="form-control" 
+            id="inputphoneNumber3" 
+            type="text" 
+            placeholder="+09333666373"
+            formControlName="phoneNumber"
+            required>
+        <p
+        class="text-danger"
+        *ngIf="signUpForm.controls?.phoneNumber.invalid && signUpForm.controls?.email.touched"
+        >
+            * Phone number is required
+        </p>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" for="inputPassword3">Password</label><span> </span>
+        <input 
+            class="form-control" 
+            id="inputPassword3" 
+            type="password" 
+            placeholder="Password"
+            formControlName="password"
+            required
+            minlength="6">
+        <p
+        class="text-danger"
+        *ngIf="signUpForm.controls?.password.invalid && signUpForm.controls?.password.touched"
+        >
+            * Password is required and must be of length 6+
+        </p>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" for="inputRetypePassword3">Confirm Password</label><span> </span>
+        <input 
+            class="form-control" 
+            id="inputRetypePassword3" 
+            type="password" 
+            placeholder="Confirm Password"
+            formControlName="confirmPassword"
+            required>
+        <p
+        class="text-danger"
+        *ngIf="signUpForm.controls?.confirmPassword.invalid && signUpForm.controls?.confirmPassword.touched || passwordsNotMatching"
+        >
+            * Passwords do not match
+        </p>
+    </div>
+    <div class="form-group">
+
+
+    </div>
+    <div *ngIf="requestsErrorMessage" class="alert alert-danger"> {{ requestsErrorMessage }} </div>
+    <div class="form-group">
+    <div class="buttons">
+        
+        <a > 
+            <span class="btn button-effect  btn-signup" *ngIf="signupBtnIsClicked;else showSignupText">
+                <app-loading-spinner></app-loading-spinner>
+            </span>
+            <ng-template #showSignupText>
+                <button type="submit" class="btn button-effect  btn-signup" style="color:white;">Create Account</button>
+            </ng-template>
+            </a>
+        <!-- end of signup btn -->
+
+        <h5>Already have an account? <a style="color:blue;" (click)="notifyLoginBtnClicked.emit()">Login</a></h5>
+    </div>
+    </div>
+</form>

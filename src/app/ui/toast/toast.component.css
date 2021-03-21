@@ -1,0 +1,16 @@
+.toast_ {
+    z-index: 2000;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    text-align: center !important;
+    transition: all 1s;
+    transform: translateY(-100%);
+    opacity: .1;
+}
+
+.show {
+    transform: translateY(0);
+    opacity: 1;
+}

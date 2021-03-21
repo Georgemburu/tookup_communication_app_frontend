@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+button {
+    border: none;
+    outline: none;
+}
+
+.lightAs_active {
+    background-color: rgb(219, 214, 214);
+}
+
+input::placeholder {
+    color: rgb(134, 128, 128)!important;
+}
+
+/* .chat-content {
+    width: 90%;
+} */
+
+/* .document {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+.document:first-child {
+    font-size: 4em;
+} */
+
+/* contactsMessageDisplay */
+.contactsMessageDisplay {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: .4em;
+}
+.contactsMessageDisplay_imageDiv img{
+    width: 3em !important;
+    height: 3em !important;
+}
+.contactsMessageDisplay_ContactDetails {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: .01em;
+}

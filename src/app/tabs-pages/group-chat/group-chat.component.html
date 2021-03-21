@@ -1,0 +1,364 @@
+<div class="messages custom-scroll" id="group_chat" >
+  <img src="assets/images/placeholders/chat1.svg" *ngIf="!clickedGroup" class="chat1svg"/>
+  <div class="contact-details" *ngIf="clickedGroup">
+    <div class="row">
+      <div class="col">
+        <div class="media left">
+          <div class="media-left mr-3">
+            <!-- dp image -->
+            <!-- <div class="profile online menu-trigger"><img class="bg-img" src="../assets/images/avtar/teq.jpg" alt="Avatar"/></div> -->
+            <div class="bg-primary profile online menu-trigger" *ngIf="clickedGroup">
+              <img class="bg-img" *ngIf="clickedGroup.profilePictureUrl" src={{clickedGroup.profilePictureUrl}} alt="Avatar"/>
+              <span *ngIf="!clickedGroup.profilePictureUrl && clickedGroup.groupName && clickedGroup.groupName.split(' ').length>1">{{ clickedGroup.groupName.split(' ')[0].split('')[0]  }}{{ clickedGroup.groupName.split(' ')[1].split('')[0]}}</span>
+              <span *ngIf="!clickedGroup.profilePictureUrl && clickedGroup.groupName && clickedGroup.groupName.split(' ').length==1">{{ clickedGroup.groupName.split('')[0]}}</span>
+            </div>
+            <!-- end dp image -->
+          </div>
+          <div class="media-body">
+            <h5>{{ clickedGroup.groupName }}</h5>
+            <div class="badge badge-success">Active</div>
+          </div>
+          <div class="media-right">
+            <ul>
+              <li><a class="icon-btn btn-light button-effect mute" href="#"><i class="fa fa-volume-up"></i></a></li>
+              <li><a class="icon-btn btn-light search search-right" href="#"> <i class="fa fa-search"></i></a>
+                <form class="form-inline search-form">
+                  <div class="form-group">
+                    <input class="form-control-plaintext" type="search" placeholder="Search.."/>
+                    <div class="icon-close close-search"> </div>
+                  </div>
+                </form>
+              </li>
+              <li><a class="icon-btn btn-light button-effect mobile-sidebar" href="#"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col"> 
+        <ul class="calls text-right">
+          <li><a class="icon-btn btn-light button-effect" href="#" data-tippy-content="Start Audio Conference" data-toggle="modal" data-target="#confercall"><i class="fa fa-phone"></i></a></li>
+          <li><a class="icon-btn btn-light button-effect" href="#" data-tippy-content="Start Video Conference" data-toggle="modal" data-target="#confvideocl"><i class="fa fa-video-camera" aria-hidden="true"></i></a></li>
+          <li><a class="icon-btn btn-light button-effect apps-toggle" href="#" data-tippy-content="All Apps"><i class="fa fa-th-large" aria-hidden="true"></i></a></li>
+          <li class="chat-friend-toggle"><a class="icon-btn btn-light bg-transparent button-effect outside" href="#" data-tippy-content="Quick action"></a>
+            <div class="chat-frind-content">
+              <ul>
+                <li><a class="icon-btn btn-outline-primary button-effect btn-sm" href="#"><i class="fa fa-user"></i></a>
+                  <h5>profile</h5>
+                </li>
+                <li><a class="icon-btn btn-outline-success button-effect btn-sm" href="#"><i data-feather="plus-circle"></i></a>
+                  <h5>archive</h5>
+                </li>
+                <li><a class="icon-btn btn-outline-danger button-effect btn-sm" href="#"><i data-feather="trash-2"></i></a>
+                  <h5>delete</h5>
+                </li>
+                <li><a class="icon-btn btn-outline-light button-effect btn-sm" href="#"><i data-feather="slash"></i></a>
+                  <h5>block</h5>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="contact-chat" *ngIf="clickedGroup">
+    <ul class="chatappend" >
+      <li class="groupuser">
+        <h4>{{ clickedGroup.groupName }}</h4>
+        <div class="gr-chat-friend-toggle">
+          <a (click)="handleAddGroupParticipantButtonClick()" class="icon-btn btn-sm pull-right add-grbtn outside"  data-tippy-content="Add User">
+            <i class="fa fa-plus"></i>
+          </a>
+          <div class="gr-chat-frind-content">
+            <ul class="chat-main">
+              <li  *ngFor="let contact_ of userInfoObject.contacts">
+                <div class="chat-box">
+                  <div class="media">
+
+                    <!-- <div class="profile offline"><img class="bg-img" src="../assets/images/contact/1.jpg" alt="Avatar"/></div> -->
+                    <div [className]="contact_.isOnline? 'bg-primary profile online' : 'bg-primary profile offline'">
+                      <img class="bg-img" *ngIf="contact_.profilePictureUrl" src={{contact_.profilePictureUrl}} alt="Avatar"/>
+                      <span style="color: rgb(46, 46, 185);" *ngIf="!contact_.profilePictureUrl && contact_.fullName.split(' ').length>1">{{ contact_.fullName.split(' ')[0].split('')[0]  }}{{ contact_.fullName.split(' ')[1].split('')[0]}}</span>
+                      <span style="color: rgb(46, 46, 185);" *ngIf="!contact_.profilePictureUrl && contact_.fullName.split(' ').length==1">{{ contact_.fullName.split('')[0]}}</span>
+                    </div>
+
+                    <div class="details">
+                      <h5>{{ contact_.fullName }}</h5>
+                      <h6>{{ contact_.location? contact_.location: ''}}</h6>
+                    </div>
+                    <div class="media-body">
+                      <a
+                      (click)="handleSendCreateGroupInvitationNotification(contact_)"
+                       class="icon-btn btn-outline-primary btn-sm"
+                       data-tippy-content="Add User">
+                       <i class="fa fa-check" aria-hidden="true" *ngIf="clickedContactToInviteToGroupChecker.contact==contact_ && clickedContactToInviteToGroupChecker.isSent==true"></i>
+                       <i class="fa fa-spinner" aria-hidden="true" *ngIf="clickedContactToInviteToGroupChecker.contact==contact_ && clickedContactToInviteToGroupChecker.isLoading==true"></i>
+                        <i class="fa fa-plus" *ngIf="clickedContactToInviteToGroupChecker.contact!=contact_"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- if empty -->
+              <li *ngIf="userInfoObject && userInfoObject.contacts && userInfoObject.contacts.length==0">
+                <div class="chat-box">
+                  <div class="media">
+                    <div class="alert alert-info">
+                      You currently have no contacts to display
+                    </div> 
+                  </div>
+                </div>
+              </li>
+              <!-- end if empty -->
+            </ul>
+          </div>
+        </div>
+        <!-- list of active group participants -->
+        <!-- <div class="gr-profile dot-btn dot-success grow"><img class="bg-img" src="../assets/images/avtar/3.jpg" alt="Avatar"/></div> -->
+        <!-- <div class="gr-profile dot-btn dot-success grow"><img class="bg-img" src="../assets/images/avtar/5.jpg" alt="Avatar"/></div> -->
+        <!-- *ngIf="groupParticipantId != userInfoObject._id && contactsObject[groupParticipantId]" -->
+        <!-- class="gr-profile dot-btn dot-success grow"  -->
+        <div 
+          *ngFor="let groupParticipantId of clickedGroup.participants"
+          class="gr-profile  grow"  
+          >
+          <img class="bg-img" 
+            *ngIf="groupParticipantId != userInfoObject._id && contactsObject[groupParticipantId] && contactsObject[groupParticipantId].profilePictureUrl" 
+            src={{contactsObject[groupParticipantId].profilePictureUrl}} alt="Avatar"/>
+          <span *ngIf="groupParticipantId != userInfoObject._id && contactsObject[groupParticipantId] && !contactsObject[groupParticipantId].profilePictureUrl && contactsObject[groupParticipantId].fullName.split(' ').length>1">{{ contactsObject[groupParticipantId].fullName.split(' ')[0].split('')[0]  }}{{ contactsObject[groupParticipantId].fullName.split(' ')[1].split('')[0]}}</span>
+          <span *ngIf="groupParticipantId != userInfoObject._id && contactsObject[groupParticipantId] && !contactsObject[groupParticipantId].profilePictureUrl && contactsObject[groupParticipantId].fullName.split(' ').length==1">{{ contactsObject[groupParticipantId].fullName.split('')[0]}}</span>
+        </div> 
+        <!-- end of active group participants -->
+      </li>
+      <!-- chats lists display -->
+      <ng-container *ngIf="groupMessagesObject && groupMessagesObject[clickedGroup._id]">
+      <li 
+        *ngFor="let groupMessage of groupMessagesObject[clickedGroup._id]; let firstItem = first; let i=index;"
+        [className]="groupMessage.from._id && groupMessage.from._id==userInfoObject._id || groupMessage.from && groupMessage.from==userInfoObject._id? 'replies' : 'sent'"
+        >
+        <div class="media">
+          <!-- <div class="profile mr-4"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div> -->
+          <div  class="profile mr-4 bg-success" >
+            <img class="bg-img" *ngIf="!!groupMessage.from.profilePictureUrl" src={{groupMessage.from.profilePictureUrl}} alt="Avatar"/>
+            <span style="color:white;" *ngIf="!groupMessage.from.profilePictureUrl && groupMessage.from.fullName && groupMessage.from.fullName.split(' ').length>1">{{ groupMessage.from.fullName.split(' ')[0].split('')[0]  }}{{ groupMessage.from.fullName.split(' ')[1].split('')[0]}}</span>
+            <span style="color:white;" *ngIf="!groupMessage.from.profilePictureUrl && groupMessage.from.fullName && groupMessage.from.fullName.split(' ').length==1">{{ groupMessage.from.fullName.split('')[0]}}</span>
+          </div>
+          <div class="media-body">
+            <div class="contact-name">
+              <h5>{{ groupMessage.from.fullName }}</h5> 
+              <h6>{{groupMessage.time }}</h6>
+              <ul class="msg-box">
+                <!-- *ngIf="firstItem" -->
+                <li
+                  class="msg-setting-main">
+                  <!-- <h5>Hi I am Josephin, can you help me to find best chat app?. </h5> -->
+                  <h5 
+                    *ngIf="!groupMessage.hasAttachment && !groupMessage.hasContact"
+                    (click)="handleMessageClick(groupMessage)">{{ groupMessage.messageText }}</h5>
+
+                    <div
+                    *ngIf="groupMessage.hasContact" class="document">
+                    <i class="fa fa-user-circle"></i>
+                    <div class="details">
+                      <!-- <div class="contactsMessageDisplay_imageDiv">
+                        <img src="assets/images/avtar/noImage.png" class="bg-img"/>
+                      </div> -->
+                      <h5>Name: {{ groupMessage.contactName }}</h5>
+                      <h6>Email: {{ groupMessage.contactEmail }}</h6>
+                      <h6>Phone: {{ groupMessage.contactPhoneNumber }}</h6>
+                    </div>
+                    <div class="icon-btns">
+                      <a 
+                        (click)="handleMessageClick(groupMessage)"
+                        class="icon-btn btn-outline-light">
+                        <i class="fa fa-plus"> </i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div 
+                    *ngIf="groupMessage.hasAttachment"
+                    class="document"><i [className]="whichFileIcon(groupMessage)"></i>
+                    <div class="details">
+                      <h5>{{ groupMessage.attachmentUrl.split('/')[groupMessage.attachmentUrl.split('/').length-1] }}</h5>
+                      <h6>25mb Seprate file</h6>
+                    </div>
+                    <div class="icon-btns">
+                      <a 
+                        (click)="handleMessageClick(groupMessage)"
+                        class="icon-btn btn-outline-light">
+                        <i class="fa fa-download"> </i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="badge badge-success sm ml-2">{{ groupMessage.status }}</div>
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </li>
+                <!-- <li 
+                  *ngIf="!firstItem || groupMessage.hasAttachment"
+                  class="msg-setting-main">
+                  <h5>{{ groupMessage.messageText }}</h5>
+                  <div class="document"><i class="fa fa-file-excel-o font-primary"></i>
+                    <div class="details">
+                      <h5>{{ groupMessage.attachementUrl.split('/')[groupMessage.attachementUrl.split('/').length-1] }}</h5>
+                      <h6>25mb Seprate file</h6>
+                    </div>
+                    <div class="icon-btns"><a class="icon-btn btn-outline-light" href="http://themes.pixelstrap.com/chitchat/assets/doc/Document.xlsx" target="_blank"><i data-feather="download"> </i></a></div>
+                  </div>
+                  <div class="badge badge-success sm ml-2">{{ groupMessage.status }}</div>
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li> -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      </ng-container>
+
+      <!-- end One Message -->
+      <!-- <li class="replies">
+        <div class="media">
+          <div class="profile mr-4"><img class="bg-img" src="../assets/images/avtar/1.jpg" alt="Avatar"/></div>
+          <div class="media-body">
+            <div class="contact-name">
+              <h5>Alan josheph</h5>
+              <h6>01:40 AM</h6>
+              <ul class="msg-box">
+                <li class="msg-setting-main">
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h5>Sure, chitchat is best theme for chating project, you can it check<a class="ml-1" href="https://themeforest.net/user/pixelstrap/portfolio" target="_blank">here.</a></h5>
+                </li>
+                <li class="msg-setting-main">
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="document"><i class="fa fa-file-excel-o font-primary"></i>
+                    <div class="details">
+                      <h5>Document.xlsx</h5>
+                      <h6>25mb Seprate file</h6>
+                    </div>
+                    <div class="icon-btns"><a class="icon-btn btn-outline-light" href="http://themes.pixelstrap.com/chitchat/assets/doc/Document.xlsx" target="_blank"><i data-feather="download"> </i></a></div>
+                  </div>
+                  <div class="badge badge-dark sm ml-2"> D</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li> -->
+      <!-- <li class="sent">
+        <div class="media">
+          <div class="profile mr-4"><img class="bg-img" src="../assets/images/contact/2.jpg" alt="Avatar"/></div>
+          <div class="media-body">
+            <div class="contact-name">
+              <h5>Josephin water</h5>
+              <h6>01:42 AM</h6>
+              <ul class="msg-box">
+                <li class="msg-setting-main">
+                  <h5>I think it's best for my project.</h5>
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="msg-setting-main">
+                  <ul class="auto-gallery">
+                    <li><img class="bg-img" src="../assets/images/media/1.jpg" alt="Avatar"/></li>
+                    <li>   <img class="bg-img" src="../assets/images/media/2.jpg" alt="Avatar"/></li>
+                    <li>   <img class="bg-img" src="../assets/images/media/3.jpg" alt="Avatar"/></li>
+                  </ul>
+                  <div class="badge badge-danger sm ml-2"></div>
+                  <div class="badge badge-outline-primary refresh sm ml-2"> <i data-feather="rotate-cw"></i></div>
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li> -->
+      <!-- <li class="replies">
+        <div class="media">
+          <div class="profile mr-4"><img class="bg-img" src="../assets/images/avtar/1.jpg" alt="Avatar"/></div>
+          <div class="media-body">
+            <div class="contact-name">
+              <h5>Alan josheph</h5>
+              <h6>01:45 AM</h6>
+              <ul class="msg-box">
+                <li class="msg-setting-main">
+                  <div class="msg-dropdown-main">
+                    <div class="msg-setting"><i class="ti-more-alt"></i></div>
+                    <div class="msg-dropdown"> 
+                      <ul>
+                        <li><a href="#"><i class="fa fa-share"></i>forward</a></li>
+                        <li><a href="#"><i class="fa fa-clone"></i>copy</a></li>
+                        <li><a href="#"><i class="fa fa-star-o"></i>rating</a></li>
+                        <li><a href="#"><i class="ti-trash"></i>delete</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h5>If you have any other query then feel free to ask us.</h5>
+                </li> 
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li> -->
+    </ul>
+  </div>
+</div>
